@@ -1,0 +1,45 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 2rem;
+  background: #f9fafc;
+  color: #333;
+}
+
+h1 {
+  text-align: center;
+  color: #0055aa;
+}
+
+form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+input, button {
+  padding: 10px;
+  font-size: 1rem;
+}
+
+button {
+  background-color: #0077ff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #005fd1;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
