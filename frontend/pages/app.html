@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyFlow - Gerenciador de Estudos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <svg width="0" height="0" style="display: none;">
+        <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="icon-home" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="icon-calendar" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="icon-plus-circle" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="icon-check-circle" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="icon-chart" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="icon-edit" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="icon-save" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="icon-check" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></symbol>
+    </svg>
+
+    <div class="app-container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h1>Study<span>Flow</span></h1>
+            </div>
+            <div class="sidebar-nav">
+                <a href="#dashboard" class="nav-link active" data-target="dashboard">
+                    <svg><use href="#icon-home"></use></svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#schedule" class="nav-link" data-target="schedule">
+                    <svg><use href="#icon-calendar"></use></svg>
+                    <span>Cronograma</span>
+                </a>
+                <a href="#log-study" class="nav-link" data-target="log-study">
+                    <svg><use href="#icon-plus-circle"></use></svg>
+                    <span>Registrar</span>
+                </a>
+                <a href="#revisions" class="nav-link" data-target="revisions">
+                    <svg><use href="#icon-check-circle"></use></svg>
+                    <span>Revisões</span>
+                </a>
+                <a href="#reports" class="nav-link" data-target="reports">
+                    <svg><use href="#icon-chart"></use></svg>
+                    <span>Relatórios</span>
+                </a>
+            </div>
+            <div class="sidebar-footer">
+                <button id="logout-button" class="btn-logout">Sair</button>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            
+            <section id="content-dashboard" class="content-section active">
+                <div class="main-header">
+                    <h2 id="welcome-header">Olá, Aluno!</h2>
+                </div>
+                
+                <div class="section-header">
+                    <h3>Revisões para Hoje</h3>
+                </div>
+                <div id="dashboard-revisions-today" class="grid-3">
+                    </div>
+                <div id="dashboard-revisions-today-empty" class="empty-state hidden">
+                    Nenhuma revisão para hoje. Que tal registrar um novo estudo?
+                </div>
+                
+                <div class="section-header" style="margin-top: 2rem;">
+                    <h3>Resumo</h3>
+                </div>
+                <div class="grid-3">
+                    <div class="card stat-card stat-card-primary">
+                        <h4>Estudos Registrados</h4>
+                        <p id="stat-total-studies">0</p>
+                    </div>
+                    <div class="card stat-card stat-card-success">
+                        <h4>Revisões Concluídas</h4>
+                        <p id="stat-total-revisions">0</p>
+                    </div>
+                    <div class="card stat-card stat-card-warning">
+                        <h4>Revisões Pendentes</h4>
+                        <p id="stat-pending-revisions">0</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="content-schedule" class="content-section">
+                <div class="main-header">
+                    <h2>Cronograma Semanal</h2>
+                </div>
+                <div class="section-header">
+                    <h3>Defina suas matérias</h3>
+                    <div>
+                        <button id="edit-schedule-btn" class="btn btn-secondary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" style="display:inline-block; vertical-align: middle; margin-right: 5px;"><use href="#icon-edit"></use></svg>
+                            Editar
+                        </button>
+                        <button id="save-schedule-btn" class="btn btn-success hidden">
+                            <svg width="16" height="16" viewBox="0 0 24 24" style="display:inline-block; vertical-align: middle; margin-right: 5px;"><use href="#icon-save"></use></svg>
+                            Salvar
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="schedule-table">
+                        <thead>
+                            <tr>
+                                <th>Segunda</th>
+                                <th>Terça</th>
+                                <th>Quarta</th>
+                                <th>Quinta</th>
+                                <th>Sexta</th>
+                                <th>Sábado</th>
+                                <th>Domingo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td data-day="mon" contenteditable="false">Português, Informática</td>
+                                <td data-day="tue" contenteditable="false">Banco de Dados, IA</td>
+                                <td data-day="wed" contenteditable="false">Matemática, Física</td>
+                                <td data-day="thu" contenteditable="false">Eng. de Software</td>
+                                <td data-day="fri" contenteditable="false">Português, Redação</td>
+                                <td data-day="sat" contenteditable="false">Revisão Geral</td>
+                                <td data-day="sun" contenteditable="false">Descanso</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="content-log-study" class="content-section">
+                <div class="main-header">
+                    <h2>Registrar Novo Estudo</h2>
+                </div>
+                <div class="card form-container">
+                    <form id="log-study-form">
+                        <div class="form-group">
+                            <label for="study-date">Data do Estudo</label>
+                            <input type="date" id="study-date" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="study-subject">Disciplina</label>
+                            <input type="text" id="study-subject" class="form-control" placeholder="Ex: Banco de Dados" required>
+                        </div>
+                         <div class="form-group">
+                            <label for="study-topic">Tema / Conteúdo</label>
+                            <textarea id="study-topic" class="form-control" placeholder="Ex: Modelagem ER, Normalização" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="study-time">Tempo Gasto (minutos)</label>
+                            <input type="number" id="study-time" class="form-control" placeholder="Ex: 60" min="1" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                Registrar e Agendar Revisões
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <section id="content-revisions" class="content-section">
+                <div class="main-header">
+                    <h2>Controle de Revisões</h2>
+                </div>
+                
+                <nav class="tabs-nav" id="revisions-tabs">
+                    <button class="tab-link active" data-tab="pending">Pendentes</button>
+                    <button class="tab-link" data-tab="overdue">Atrasadas</button>
+                    <button class="tab-link" data-tab="completed">Concluídas</button>
+                </nav>
+
+                <div id="tab-content-pending" class="tab-content active">
+                    </div>
+                <div id="tab-content-overdue" class="tab-content">
+                    </div>
+                <div id="tab-content-completed" class="tab-content">
+                    </div>
+            </section>
+            
+            <section id="content-reports" class="content-section">
+                <div class="main-header">
+                    <h2>Relatórios e Estatísticas</h2>
+                </div>
+                
+                <div class="grid-3">
+                    <div class="card stat-card stat-card-primary">
+                        <h4>Total de Estudos</h4>
+                        <p id="report-total-studies">0</p>
+                    </div>
+                    <div class="card stat-card stat-card-primary">
+                        <h4>Total de Horas</h4>
+                        <p id="report-total-time">0 h</p>
+                    </div>
+                    <div class="card stat-card stat-card-success">
+                        <h4>Revisões Concluídas</h4>
+                        <p id="report-completed-revisions">0</p>
+                    </div>
+                     <div class="card stat-card stat-card-danger">
+                        <h4>Revisões Atrasadas</h4>
+                        <p id="report-overdue-revisions">0</p>
+                    </div>
+                </div>
+                
+                <div class="section-header" style="margin-top: 2rem;">
+                    <h3>Estudos por Disciplina</h3>
+                </div>
+                <div class="card">
+                    <div id="reports-chart-container" class="chart-container">
+                        <div class="empty-state">
+                            Nenhum dado de estudo para exibir.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+    
+    <div id="toast-notification">Notificação</div>
+
+    <script type="module" src="../js/app.js"></script>
+
+</body>
+</html>
