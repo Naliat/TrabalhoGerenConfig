@@ -53,6 +53,8 @@ Sistema de organização de estudos e tarefas acadêmicas.
 ├── README.md
 └── venv
 
+```
+
 ## Autores
 
 Esse projeto foi desenvolvido por:
