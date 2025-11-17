@@ -5,6 +5,8 @@ import { initCronograma, renderSchedule } from './cronograma.js';
 import { initEstudos, renderLogStudyForm } from './estudos.js';
 import { initRevisoes, renderRevisionsPage, renderDashboardRevisions, updateDashboardStats } from './revisoes.js';
 import { renderReports } from './relatorios.js';
+import { checkPendingRevisionNotifications } from './notifications.js';
+import { initExport } from './export.js';
 
 // --- Inicialização ao Carregar o DOM ---
 document.addEventListener('DOMContentLoaded', () => {
@@ -14,6 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 2. Carrega os dados do usuário logado
     loadUserData();
+    
+    checkPendingRevisionNotifications();
 
     // 3. Define as funções de renderização de cada "página"
     
@@ -45,6 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Inicializa o módulo de revisões, passando o mapa para re-renderizar
     initRevisoes(renderMap);
+
+    initExport();
 
     // 6. Configura a UI Principal
     
