@@ -1,6 +1,11 @@
 # SITASK - Sistema de Gerenciamento de Estudos e Revisões
 
-Sistema de organização de estudos e tarefas acadêmicas.
+## Sobre esse sistema;
+
+### Esse sistema foi proposto na disciplina de Linguagens de Programação da Universidade Federal do Ceará e visa ajudar nas atividades dos estudantes.
+
+
+
 
 ---
 
