@@ -1,5 +1,5 @@
 import { getDB, saveUserData } from './usuario.js';
-import { getToday, formatDateBR, showToast } from './utils.js';
+import { getToday, formatDateBR, showToast, generateGoogleCalendarLink } from './utils.js';
 
 let revisionsTabsContainer = null;
 let revisionTabLinks = null;
@@ -134,8 +134,21 @@ function createRevisionCard(rev) {
     
     let buttonHtml = '';
     if (rev.status === 'pending') {
+        
+        // 2. Criar os detalhes do evento
+        const calendarEvent = {
+            title: `Revisão SITasks: ${rev.subject}`,
+            description: `Revisar o conteúdo: ${rev.topic}\n(Ciclo: ${rev.revisionCycle})`,
+            date: rev.revisionDate
+        };
+        const calendarLink = generateGoogleCalendarLink(calendarEvent);
+
+        // 3. Adicionar o botão do calendário ao HTML
         buttonHtml = `
             <div class="revision-card-footer">
+                <a href="${calendarLink}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" style="margin-right: 8px;">
+                    Adicionar ao Google Calendário
+                </a>
                 <button class="btn btn-success btn-sm complete-revision-btn" data-id="${rev.id}">
                     Marcar como Concluída
                 </button>
