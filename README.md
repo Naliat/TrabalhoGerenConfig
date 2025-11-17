@@ -1,4 +1,4 @@
-# SITASK 📚✅
+# SITASK - Sistema de Gerenciamento de Estudos e Revisões
 
 Sistema de organização de estudos e tarefas acadêmicas.
 
