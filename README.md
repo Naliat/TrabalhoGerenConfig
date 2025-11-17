@@ -60,4 +60,4 @@ Sistema de organização de estudos e tarefas acadêmicas.
 Esse projeto foi desenvolvido por:
 
 - [Tailan de Souza](https://github.com/Naliat)
-- [Carlos Jefferson](https://github.com/Jefferson)
+- [Carlos Jefferson](https://github.com/carlosjeferson)
