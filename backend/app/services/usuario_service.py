@@ -1,56 +1,57 @@
-from database import mongo
+from datetime import datetime, timedelta, UTC
+from app.database import mongo
 from bson.objectid import ObjectId
 
-# Nome da coleção no MongoDB
-USUARIOS_COLLECTION = 'usuarios'
+SCHEDULE_COLL = 'schedules'
+STUDY_COLL = 'studies'
+REVISION_COLL = 'revisions'
 
-def listar_usuarios():
-    """Lista todos os usuários (apenas para debug ou admin)."""
-    # Consulta o MongoDB
-    usuarios = mongo.db[USUARIOS_COLLECTION].find()
-    
-    # Converte o cursor do MongoDB em uma lista de dicionários
-    # e converte o ObjectId para string
-    lista_usuarios = []
-    for user in usuarios:
-        user['_id'] = str(user['_id'])
-        # Remove a senha antes de retornar (boa prática)
-        user.pop('password', None) 
-        lista_usuarios.append(user)
-        
-    return lista_usuarios
+DEFAULT_OFFSETS = [1, 7, 14]
 
-def criar_usuario(dados):
-    """Cria um novo usuário no MongoDB."""
-    
-    # 1. Validação simples
-    email = dados.get('email')
-    password = dados.get('password')
-    
-    if not email or not password:
-        return {"erro": "Email e senha são obrigatórios."}
-        
-    # 2. Verificar se o usuário já existe
-    user_exists = mongo.db[USUARIOS_COLLECTION].find_one({'email': email})
-    if user_exists:
-        return {"erro": "Este email já está cadastrado."}
-        
-    # 3. Inserir o novo usuário
-    try:
-        # Nota: Em um app real, a senha DEVE ser hasheada antes de salvar (ex: usando Flask-Bcrypt)
-        novo_usuario = {
-            'email': email,
-            'password': password, 
+def create_study_and_revisions(user_id, subject, topic, minutes, offsets=None):
+    db = mongo.db
+
+    if offsets is None:
+        offsets = DEFAULT_OFFSETS
+
+    offsets = [int(x) for x in offsets] if isinstance(offsets, (list, tuple)) else DEFAULT_OFFSETS
+    now = datetime.now(UTC)
+
+    study_doc = {
+        'user_id': ObjectId(user_id),
+        'subject': subject,
+        'topic': topic or '',
+        'minutes': int(minutes),
+        'studied_at': now,
+        'created_at': now
+    }
+
+    res = db[STUDY_COLL].insert_one(study_doc)
+    study_id = res.inserted_id
+
+    revisions = []
+
+    for d in offsets:
+        due_date = now + timedelta(days=int(d))
+
+        r = {
+            'user_id': ObjectId(user_id),
+            'study_id': study_id,
+            'due_date': due_date,
+            'completed': False,
+            'created_at': now
         }
-        
-        resultado = mongo.db[USUARIOS_COLLECTION].insert_one(novo_usuario)
-        
-        # Retorna o ID do novo usuário criado
-        return {
-            "_id": str(resultado.inserted_id),
-            "email": email
-        }
-    
-    except Exception as e:
-        # Retorna um erro caso a inserção falhe
-        return {"erro": f"Falha ao salvar usuário no banco de dados: {str(e)}"}
+
+        rr = db[REVISION_COLL].insert_one(r)
+
+        r['id'] = str(rr.inserted_id)
+        r['study_id'] = str(study_id)
+        r['due_date'] = due_date.isoformat()
+
+        revisions.append(r)
+
+    study_doc['id'] = str(study_id)
+    study_doc['studied_at'] = study_doc['studied_at'].isoformat()
+    study_doc['created_at'] = study_doc['created_at'].isoformat()
+
+    return study_doc, revisions
