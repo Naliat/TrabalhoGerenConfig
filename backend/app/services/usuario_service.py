@@ -1,25 +1,56 @@
-# Corrigido: Importação relativa. Sobe dois níveis (services -> app -> backend) para database.py
 from database import mongo
-from bson.objectid import ObjectId # Garante que ObjectId está disponível se necessário
+from bson.objectid import ObjectId
 
-# Exemplo de uso
+# Nome da coleção no MongoDB
+USUARIOS_COLLECTION = 'usuarios'
+
 def listar_usuarios():
-    # Exemplo: Acessa uma coleção e retorna os documentos
-    try:
-        usuarios = list(mongo.db.usuarios.find({}))
-        # Converte ObjectId para string para serialização JSON
-        for user in usuarios:
-            user['_id'] = str(user['_id']) 
-        return usuarios
-    except Exception as e:
-        print(f"Erro ao listar usuários: {e}")
-        return {"erro": "Falha ao acessar o banco de dados."}
+    """Lista todos os usuários (apenas para debug ou admin)."""
+    # Consulta o MongoDB
+    usuarios = mongo.db[USUARIOS_COLLECTION].find()
+    
+    # Converte o cursor do MongoDB em uma lista de dicionários
+    # e converte o ObjectId para string
+    lista_usuarios = []
+    for user in usuarios:
+        user['_id'] = str(user['_id'])
+        # Remove a senha antes de retornar (boa prática)
+        user.pop('password', None) 
+        lista_usuarios.append(user)
+        
+    return lista_usuarios
 
 def criar_usuario(dados):
-    # Exemplo: Insere um novo documento
+    """Cria um novo usuário no MongoDB."""
+    
+    # 1. Validação simples
+    email = dados.get('email')
+    password = dados.get('password')
+    
+    if not email or not password:
+        return {"erro": "Email e senha são obrigatórios."}
+        
+    # 2. Verificar se o usuário já existe
+    user_exists = mongo.db[USUARIOS_COLLECTION].find_one({'email': email})
+    if user_exists:
+        return {"erro": "Este email já está cadastrado."}
+        
+    # 3. Inserir o novo usuário
     try:
-        resultado = mongo.db.usuarios.insert_one(dados)
-        return {"id": str(resultado.inserted_id), "mensagem": "Usuário criado com sucesso"}
+        # Nota: Em um app real, a senha DEVE ser hasheada antes de salvar (ex: usando Flask-Bcrypt)
+        novo_usuario = {
+            'email': email,
+            'password': password, 
+        }
+        
+        resultado = mongo.db[USUARIOS_COLLECTION].insert_one(novo_usuario)
+        
+        # Retorna o ID do novo usuário criado
+        return {
+            "_id": str(resultado.inserted_id),
+            "email": email
+        }
+    
     except Exception as e:
-        print(f"Erro ao criar usuário: {e}")
-        return {"erro": "Falha ao inserir no banco de dados."}
+        # Retorna um erro caso a inserção falhe
+        return {"erro": f"Falha ao salvar usuário no banco de dados: {str(e)}"}

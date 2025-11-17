@@ -1,8 +1,7 @@
-from app import create_app # Corrigido: Não usa 'backend.'
+from app import create_app
 
 app = create_app()
 
 if __name__ == '__main__':
-    # Certifique-se de que a variável de ambiente FLASK_APP está configurada 
-    # ou use app.run() para rodar.
+    # >>> A alteração crucial é aqui:
     app.run(debug=True)
