@@ -2,6 +2,11 @@
  * Mostra uma notificação (toast) na tela.
  * @param {string} message - A mensagem a ser exibida.
  * @param {string} [type='success'] - O tipo de toast ('success', 'error', 'warning').
+ * @param {object} eventDetails
+ * @param {string} eventDetails.title - Título do evento.
+ * @param {string} eventDetails.description - Descrição do evento.
+ * @param {string} eventDetails.date - Data do evento ('YYYY-MM-DD').
+ * @returns {string} - A URL formatada.
  */
 export function showToast(message, type = 'success') {
     const toast = document.getElementById('toast-notification');
@@ -50,4 +55,32 @@ export function getToday() {
  */
 export function generateId() {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
+}
+
+export function generateGoogleCalendarLink(eventDetails) {
+    const { title, description, date } = eventDetails;
+
+    // O Google Calendar espera datas em UTC (YYYYMMDDTHHMMSSZ).
+    // Vamos criar um evento de 1 hora no dia da revisão, às 9h da manhã (local).
+    const startDate = new Date(date + 'T09:00:00');
+    const endDate = new Date(date + 'T10:00:00');
+
+    // Formata para o padrão do Google (ex: 20251117T090000)
+    const formatDate = (dt) => dt.toISOString().replace(/[-:.]/g, '').slice(0, 15) + 'Z';
+    
+    // No formato do Google, o fuso UTC é Z, mas se quisermos usar o fuso local
+    // e o formato sem Z, removemos o Z e o toISOString.
+    // Para simplicidade, vamos usar o toISOString e o Z.
+    const isoStartDate = startDate.toISOString().replace(/[-:.]/g, '').slice(0, 15) + 'Z';
+    const isoEndDate = endDate.toISOString().replace(/[-:.]/g, '').slice(0, 15) + 'Z';
+
+    const baseUrl = 'https://www.google.com/calendar/render?action=TEMPLATE';
+    const params = new URLSearchParams({
+        'text': title,
+        'details': description,
+        'dates': `${isoStartDate}/${isoEndDate}`,
+        'ctz': 'America/Sao_Paulo' // (Opcional, mas bom para fuso)
+    });
+
+    return `${baseUrl}&${params.toString()}`;
 }
