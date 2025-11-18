@@ -4,13 +4,17 @@
 
 ### Esse sistema foi proposto na disciplina de Linguagens de Programação da Universidade Federal do Ceará e visa ajudar nas atividades dos estudantes.
 
-
-
-
 ---
 
 ## 🌐 Acesse o projeto online
 🔗 [Clique aqui para acessar o site](https://sitasklip.netlify.app/)
+
+ou se achar melhor
+
+## 📱 QR Code do site
+Para acessar rapidamente, basta escanear o QR Code abaixo:
+
+![QR Code do site](./qrcodeSite.png)
 
 ---
 

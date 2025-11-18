@@ -2,67 +2,68 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('login-form');
     const toast = document.getElementById('toast-notification');
 
-    /**
-     * Mostra uma notificação (toast) na tela.
-     * @param {string} message - A mensagem a ser exibida.
-     * @param {string} [type='success'] - 'success' ou 'error'.
-     */
+    const API_URL = "http://127.0.0.1:5000/api";
+
     function showToast(message, type = 'success') {
         if (!toast) {
-            console.warn('Elemento toast não encontrado. Usando alert() como fallback.');
             alert(message);
             return;
         }
         toast.textContent = message;
-        toast.className = type; // Remove classes antigas
+        toast.className = type;
         toast.classList.add('show');
-        
-        setTimeout(() => {
-            toast.classList.remove('show');
-        }, 3000);
+
+        setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    /**
-     * Carrega a lista de usuários do localStorage.
-     * @returns {Array} - A lista de usuários.
-     */
-    function loadUsers() {
-        return JSON.parse(localStorage.getItem('studyFlowUsers')) || [];
-    }
-
-    /**
-     * Lida com a submissão do formulário de login.
-     */
-    function handleLogin(e) {
+    async function handleLogin(e) {
         e.preventDefault();
+
         const email = document.getElementById('login-email').value.trim();
         const password = document.getElementById('login-password').value.trim();
-        const users = loadUsers();
 
-        const user = users.find(u => u.email === email && u.password === password);
-        
-        if (user) {
-            // Salva o usuário na *sessão* (dura enquanto o navegador está aberto)
-            sessionStorage.setItem('studyFlowUser', user.email);
-            // Redireciona para a página principal do app
-            window.location.href = 'app.html';
-        } else {
-            showToast('Email ou senha inválidos.', 'error');
+        if (!email || !password) {
+            showToast("Preencha todos os campos.", "error");
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/login`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                showToast(result.error || "Erro ao logar.", "error");
+                return;
+            }
+            sessionStorage.setItem("studyFlowUser", JSON.stringify(result.user));
+
+            showToast("Login realizado com sucesso!");
+
+          
+            setTimeout(() => {
+                window.location.href = "app.html";
+            }, 1000);
+
+        } catch (err) {
+            console.error("Erro no login:", err);
+            showToast("Falha ao conectar ao servidor.", "error");
         }
     }
 
-    /**
-     * "Auth Guard" - Se o usuário já estiver logado, redireciona para o app.
-     */
     function checkAuthGuard() {
-        if (sessionStorage.getItem('studyFlowUser')) {
-            window.location.href = 'app.html';
+        if (sessionStorage.getItem("studyFlowUser")) {
+            window.location.href = "app.html";
         }
     }
 
-    // --- Inicialização ---
-    checkAuthGuard(); // Verifica se já está logado
+    checkAuthGuard();
+
     if (loginForm) {
-        loginForm.addEventListener('submit', handleLogin);
+        loginForm.addEventListener("submit", handleLogin);
     }
 });
