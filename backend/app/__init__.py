@@ -8,19 +8,36 @@ import logging
 
 
 def create_app():
-    # ✅ Ativar logs coloridos e configurados
+    # --------------------------------------------------
+    # 1. Configurar logger
+    # --------------------------------------------------
     setup_logger()
     logging.debug("🚀 Iniciando aplicação Flask...")
 
-    # 1. Carregar variáveis do .env
+    # --------------------------------------------------
+    # 2. Carregar variáveis do .env
+    # --------------------------------------------------
     load_dotenv()
     logging.debug("📄 .env carregado!")
 
+    # 🔍 TESTE DEFINITIVO PARA DEBUG DO .env
+    print("\n=== DEBUG ENV CHECK ===")
+    print("PWD:", os.getcwd())
+    print(".env exists:", os.path.exists(".env"))
+    print("MONGO_URI:", os.getenv("MONGO_URI"))
+    print("ADMIN_KEY:", os.getenv("ADMIN_KEY"))
+    print("========================\n")
+
+    # --------------------------------------------------
+    # 3. Criar app Flask
+    # --------------------------------------------------
     app = Flask(__name__)
     CORS(app)
     logging.debug("🌐 CORS habilitado")
 
-    # 2. Ler MONGO_URI
+    # --------------------------------------------------
+    # 4. Ler e validar MONGO_URI
+    # --------------------------------------------------
     mongo_uri = os.getenv("MONGO_URI")
     logging.debug(f"🔍 MONGO_URI lida: {mongo_uri}")
 
@@ -30,11 +47,15 @@ def create_app():
 
     app.config["MONGO_URI"] = mongo_uri
 
-    # 3. Inicializar banco
+    # --------------------------------------------------
+    # 5. Inicializar banco de dados
+    # --------------------------------------------------
     logging.debug("🔌 Inicializando conexão com o banco...")
     init_db(app)
 
-    # 4. Registrar rotas
+    # --------------------------------------------------
+    # 6. Registrar rotas
+    # --------------------------------------------------
     logging.debug("📦 Registrando rotas...")
     from app.routes.usuario_routes import usuario_bp
     app.register_blueprint(usuario_bp, url_prefix="/api")
