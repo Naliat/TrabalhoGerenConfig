@@ -43,3 +43,13 @@ htmlcov/
 __pycache__/
 *.pyc
 instance/
+
+# --- ADMIN AREA (NÃO SUBIR) ---
+app/routes/admin_routes.py
+app/templates/admin/
+app/static/admin/
+admin/
+adm/
+secret-admin/
+*.local.html
+*.local.js
