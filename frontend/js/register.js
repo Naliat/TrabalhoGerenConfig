@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const email = document.getElementById('register-email').value.trim();
         const password = document.getElementById('register-password').value.trim();
+        const name = document.getElementById('register-name').value.trim();
 
         if (!email || !password) {
             showToast('Preencha todos os campos.', 'error');
@@ -38,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ email, password, name }),
             });
 
             const data = await response.json();
