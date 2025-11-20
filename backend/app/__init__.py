@@ -1,7 +1,7 @@
 import os
-from flask import Flask, render_template, jsonify, abort # <-- Importações adicionais
+from flask import Flask, render_template, jsonify, abort 
 from dotenv import load_dotenv
-from flask_cors import CORS
+from flask_cors import CORS # <-- Importação necessária
 from app.database import init_db
 from app.logger import setup_logger
 import logging
@@ -46,10 +46,12 @@ def create_app():
                 # Diz ao Flask onde procurar CSS, JS e Assets (arquivos estáticos)
                 static_folder=FRONTEND_PATH, 
                 # Configura a URL base dos arquivos estáticos para ser a raiz (/)
-                # Ex: 'css/style.css' será procurado em /css/style.css
                 static_url_path='') 
     
-    CORS(app)
+    # --- AJUSTE CORS EXPLÍCITO ---
+    # Garante que o CORS aceite requisições de QUALQUER origem para TODAS as rotas,
+    # eliminando problemas de cross-origin (necessário para deploys em nuvem).
+    CORS(app, resources={r"/*": {"origins": "*"}}) 
     logging.debug("🌐 CORS habilitado")
 
     # --------------------------------------------------
@@ -71,7 +73,7 @@ def create_app():
     init_db(app)
 
     # --------------------------------------------------
-    # 6. ADICIONAR ROTAS DE SERVIÇO DO FRONTEND (AJUSTE CRÍTICO)
+    # 6. ADICIONAR ROTAS DE SERVIÇO DO FRONTEND
     # --------------------------------------------------
     
     # Rota 1: Serve a página inicial (index.html) na raiz do site

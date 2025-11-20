@@ -2,11 +2,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('login-form');
     const toast = document.getElementById('toast-notification');
 
-    const API_URL = "http://127.0.0.1:5000/api";
+    // CORREÇÃO: Define a URL da API dinamicamente com base no ambiente
+    const hostname = window.location.hostname;
+    let API_URL;
+
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+        // Ambiente de Desenvolvimento Local
+        API_URL = "http://127.0.0.1:5000/api";
+    } else {
+        // Ambiente de Produção (Render)
+        API_URL = "https://trab-de-lip-sitask.onrender.com/api";
+    }
+    // Fim da definição da URL
 
     function showToast(message, type = 'success') {
         if (!toast) {
-            alert(message);
+            // Usando console.error/log em vez de alert, conforme as boas práticas.
+            console.error(message); 
             return;
         }
         toast.textContent = message;
@@ -34,24 +46,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ email, password })
             });
 
-            const result = await response.json();
-
+            // Melhoria: Lida com erros de rede (status 500, 403, 404, etc.)
             if (!response.ok) {
-                showToast(result.error || "Erro ao logar.", "error");
+                // Tenta ler o erro do corpo da resposta JSON
+                const contentType = response.headers.get("content-type");
+                let errorResult = {};
+                if (contentType && contentType.indexOf("application/json") !== -1) {
+                    errorResult = await response.json();
+                } else {
+                    // Se não for JSON, usa o status HTTP
+                    showToast(`Erro de rede: Status ${response.status}`, "error");
+                    return;
+                }
+                
+                showToast(errorResult.error || `Erro de rede: Status ${response.status}`, "error");
                 return;
             }
+            
+            const result = await response.json();
+
             sessionStorage.setItem("studyFlowUser", JSON.stringify(result.user));
 
             showToast("Login realizado com sucesso!");
 
-          
             setTimeout(() => {
                 window.location.href = "app.html";
             }, 1000);
 
         } catch (err) {
+            // Este catch lida com falhas de DNS ou falha de conexão inicial.
             console.error("Erro no login:", err);
-            showToast("Falha ao conectar ao servidor.", "error");
+            // Mensagem de erro mais útil
+            showToast("Falha ao se conectar ao servidor. Verifique sua conexão.", "error");
         }
     }
 
