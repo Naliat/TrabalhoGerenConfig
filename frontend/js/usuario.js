@@ -84,8 +84,9 @@ export function getCurrentUserEmail() {
 }
 
 export function getUserName() {
-    return currentUser ? currentUser.email.split('@')[0] : "Aluno";
+    return currentUser && currentUser.name ? currentUser.name : "Aluno";
 }
+
 
 export function handleLogout() {
     sessionStorage.removeItem("studyFlowUser");
