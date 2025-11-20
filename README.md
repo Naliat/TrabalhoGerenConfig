@@ -7,7 +7,7 @@
 ---
 
 ## 🌐 Acesse o projeto online
-🔗 [Clique aqui para acessar o site](https://sitasklip.netlify.app/)
+🔗 [Clique aqui para acessar o site](https://trab-de-lip-sitask.onrender.com/)
 
 ou se achar melhor
 
