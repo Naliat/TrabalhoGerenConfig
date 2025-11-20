@@ -2,9 +2,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const registerForm = document.getElementById('register-form');
     const toast = document.getElementById('toast-notification');
 
+    // CORREÇÃO CRÍTICA: Define a URL da API dinamicamente com base no ambiente
+    const hostname = window.location.hostname;
+    let API_URL;
+
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+        // Ambiente de Desenvolvimento Local
+        API_URL = "http://127.0.0.1:5000/api";
+    } else {
+        // Ambiente de Produção (Render)
+        API_URL = "https://trab-de-lip-sitask.onrender.com/api"; // URL de Produção Correta
+    }
+    // Fim da definição da URL
+
     function showToast(message, type = 'success') {
         if (!toast) {
-            alert(message);
+            // Usando console.error/log em vez de alert, conforme as boas práticas.
+            console.error(message);
             return;
         }
         toast.textContent = message;
@@ -23,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = document.getElementById('register-password').value.trim();
         const name = document.getElementById('register-name').value.trim();
 
-        if (!email || !password) {
+        if (!email || !password || !name) {
             showToast('Preencha todos os campos.', 'error');
             return;
         }
@@ -34,7 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch("http://localhost:5000/api/register", {
+            // Usa a URL dinâmica definida acima
+            const response = await fetch(`${API_URL}/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -42,13 +57,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ email, password, name }),
             });
 
-            const data = await response.json();
-
+            // Melhoria: Trata a resposta se o status não for OK
             if (!response.ok) {
-                showToast(data.error || 'Erro ao registrar usuário', 'error');
+                const contentType = response.headers.get("content-type");
+                let errorResult = {};
+                if (contentType && contentType.indexOf("application/json") !== -1) {
+                    errorResult = await response.json();
+                }
+
+                showToast(errorResult.error || `Erro ao registrar: Status ${response.status}`, 'error');
                 return;
             }
 
+            // Se o response.ok for true, processa o sucesso
+            // Não precisa de await response.json() aqui se o backend não retornar dados de sucesso
+            // Se o backend retornar JSON, use: const data = await response.json();
+            
             showToast('Conta criada com sucesso! Faça login.');
             registerForm.reset();
 
@@ -57,8 +81,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 1500);
 
         } catch (error) {
+            // Este catch lida com falhas de DNS ou falha de conexão inicial.
             console.error("Erro na requisição:", error);
-            showToast('Erro ao conectar ao servidor.', 'error');
+            showToast('Falha ao conectar ao servidor. Verifique sua conexão.', 'error');
         }
     }
 
