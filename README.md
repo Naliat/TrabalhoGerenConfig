@@ -14,7 +14,7 @@ ou se achar melhor
 ## 📱 QR Code do site
 Para acessar rapidamente, basta escanear o QR Code abaixo:
 
-![QR Code do site](./qrcodeSite.png)
+![QR Code do site](./QrcodeSite.png)
 
 ---
 
