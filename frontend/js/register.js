@@ -68,10 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 showToast(errorResult.error || `Erro ao registrar: Status ${response.status}`, 'error');
                 return;
             }
-
-            // Se o response.ok for true, processa o sucesso
-            // Não precisa de await response.json() aqui se o backend não retornar dados de sucesso
-            // Se o backend retornar JSON, use: const data = await response.json();
             
             showToast('Conta criada com sucesso! Faça login.');
             registerForm.reset();
