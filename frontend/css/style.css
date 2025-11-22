@@ -576,6 +576,75 @@ body {
     background-color: var(--danger);
 }
 
+/* --- 6. Layout Split Screen (Login/Cadastro) --- */
+
+.register-bg {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                      url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* Container que divide a tela */
+.split-screen {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+.left-panel {
+    flex: 1;
+    position: relative;
+    background-image: url('https://images.unsplash.com/photo-1432821596592-e2c18b78144f?q=80&w=2070&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay {
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: black;
+    opacity: 0.65;
+    /* z-index: 1; */
+}
+
+.brand-logo {
+    position: relative;
+    z-index: 2;
+    color: var(--bg-light);
+    text-align: center;
+}
+
+.brand-logo h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    letter-spacing: -2px;
+}
+
+.brand-logo span {
+    color: var(--primary-main);
+}
+
+.right-panel {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-color);
+    padding: 2rem;
+}
+
+.right-panel .auth-box {
+    width: 100%;
+    max-width: 400px;
+    background-color: var(--bg-light);
+}
+
 /* Media Queries para Responsividade */
 @media (max-width: 768px) {
     .app-container {
@@ -646,6 +715,28 @@ body {
     
     .grid-3 {
         grid-template-columns: 1fr;
+    }
+
+    .split-screen {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+    }
+
+    .left-panel {
+        flex: none;
+        height: 250px;
+    }
+
+    .brand-logo h1 {
+        font-size: 2.5rem;
+    }
+    
+    .right-panel {
+        flex: none;
+        width: 100%;
+        padding: 2rem 1.5rem 4rem 1.5rem;
     }
 }
 

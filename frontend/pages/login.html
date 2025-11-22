@@ -7,29 +7,39 @@
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <div class="auth-container">
-        <div class="auth-box">
-            <div class="auth-header">
+    <div class="split-screen">
+        <div class="left-panel">
+            <div class="overlay"></div>
+            <div class="brand-logo">
                 <h1>SI<span>Tasks</span></h1>
-                <p>Faça login para gerenciar seus estudos.</p>
             </div>
-            <form id="login-form">
-                <div class="form-group">
-                    <label for="login-email">Email</label>
-                    <input type="email" id="login-email" class="form-control" placeholder="Digite seu email..." required>
+        </div>
+
+        <div class="right-panel">
+            <div class="auth-box">
+                <div class="auth-header">
+                    <h2>Bem-vindo</h2>
+                    <p>Faça <strong>login</strong> para gerenciar seus estudos.</p>
                 </div>
-                <div class="form-group">
-                    <label for="login-password">Senha</label>
-                    <input type="password" id="login-password" class="form-control" placeholder="Digite sua senha..." required>
-                </div>
+                
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" class="form-control" placeholder="Digite seu email..." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Senha</label>
+                        <input type="password" id="login-password" class="form-control" placeholder="Digite sua senha..." required>
+                    </div>
                     <button type="submit" class="btn btn-primary">Entrar</button>
-            </form>
-            <p class="auth-switch"> Não tem uma conta? <a href="registro.html" class="auth-switch-link">Cadastre-se</a></p>
+                </form>
+                
+                <p class="auth-switch"> Não tem uma conta? <a href="registro.html" class="auth-switch-link">Cadastre-se</a></p>
+            </div>
+        </div>
     </div>
-</div>
 
-<div id="toast-notification">Notificação</div>
-
-<script src="../js/login.js"></script>
+    <div id="toast-notification">Notificação</div>
+    <script src="../js/login.js"></script>
 </body>
 </html>
