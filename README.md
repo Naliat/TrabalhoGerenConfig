@@ -70,3 +70,4 @@ Esse projeto foi desenvolvido por:
 
 - [Tailan de Souza](https://github.com/Naliat)
 - [Carlos Jefferson](https://github.com/carlosjeferson)
+- [Lucas Anthony]()
