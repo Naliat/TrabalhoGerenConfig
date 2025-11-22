@@ -18,20 +18,16 @@ export function renderReports() {
     document.getElementById('report-completed-revisions').textContent = completedRevisions;
     document.getElementById('report-overdue-revisions').textContent = overdueRevisions;
     
-    // Gráfico de Barras
+    // Renderizar gráficos
     renderReportsChart();
-    //Gráfico de Torta
     renderRevisionPieChart();
-    //Gráfico em Linhas
     renderStudyLineChart();
-
 }
 
 /**
- * Renderiza o gráfico de barras de estudos por disciplina.
+ * Gráfico de Barras — Estudos por Disciplina
  */
-function renderReportsChart()
-{
+function renderReportsChart() {
     const db = getDB();
     const container = document.getElementById('reports-chart-container');
     container.innerHTML = '';
@@ -45,7 +41,6 @@ function renderReportsChart()
         return;
     }
 
-    // Agrupa estudos por disciplina (tempo)
     const stats = db.studies.reduce((acc, study) => {
         const subject = study.subject || 'Sem Disciplina';
         acc[subject] = (acc[subject] || 0) + (study.time || 0);
@@ -53,29 +48,27 @@ function renderReportsChart()
     }, {});
     
     const maxTime = Math.max(...Object.values(stats));
-    
-    // Cores para o gráfico (simples)
     const colors = ['#3b82f6', '#f59e0b', '#16a34a', '#dc2626', '#6366f1', '#ec4899'];
-    let colorIndex = 0;
+    let i = 0;
     
     for (const [subject, time] of Object.entries(stats)) {
-        const percentage = maxTime > 0 ? (time / maxTime) * 100 : 0;
-        const barColor = colors[colorIndex % colors.length];
-        colorIndex++;
-        
-        const barElement = document.createElement('div');
-        barElement.className = 'chart-bar-group';
-        barElement.innerHTML = `
-            <div class="chart-bar-label">${subject}</div>
-            <div class="chart-bar-track">
-                <div class="chart-bar-fill" style="width: ${percentage}%; background-color: ${barColor};">
-                    <span>${(time / 60).toFixed(1)} h</span>
+        const percentage = (time / maxTime) * 100;
+
+        const bar = `
+            <div class="chart-bar-group">
+                <div class="chart-bar-label">${subject}</div>
+                <div class="chart-bar-track">
+                    <div class="chart-bar-fill" style="width: ${percentage}%; background: ${colors[i++ % colors.length]}">
+                        <span>${(time / 60).toFixed(1)} h</span>
+                    </div>
                 </div>
             </div>
         `;
-        container.appendChild(barElement);
+        container.innerHTML += bar;
     }
-    /**
+}
+
+/**
  * Gráfico de Pizza — Revisões Concluídas x Pendentes
  */
 function renderRevisionPieChart() {
@@ -98,37 +91,32 @@ function renderRevisionPieChart() {
 }
 
 /**
- * Gráfico de Linha — Evolução das Horas Estudadas por Dia
+ * Gráfico de Linha — Horas Estudadas por Dia
  */
 function renderStudyLineChart() {
     const db = getDB();
 
     const grouped = {};
     db.studies.forEach(st => {
-        if (!grouped[st.date]) grouped[st.date] = 0;
-        grouped[st.date] += st.time;
+        grouped[st.date] = (grouped[st.date] || 0) + st.time;
     });
 
     const labels = Object.keys(grouped).sort();
-    const values = labels.map(d => (grouped[d] / 60).toFixed(1)); // horas
+    const values = labels.map(d => (grouped[d] / 60).toFixed(1));
 
     const ctx = document.getElementById("studyLineChart");
 
     new Chart(ctx, {
         type: "line",
         data: {
-            labels: labels,
+            labels,
             datasets: [{
                 label: "Horas por dia",
                 data: values,
-                fill: false,
-                borderWidth: 2
+                borderWidth: 2,
+                borderColor: "#3b82f6",
+                tension: 0.3
             }]
-        },
-        options: {
-            tension: 0.3
         }
     });
-}
-
 }
