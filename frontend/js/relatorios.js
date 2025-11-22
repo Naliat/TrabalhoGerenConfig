@@ -20,12 +20,18 @@ export function renderReports() {
     
     // Gráfico de Barras
     renderReportsChart();
+    //Gráfico de Torta
+    renderRevisionPieChart();
+    //Gráfico em Linhas
+    renderStudyLineChart();
+
 }
 
 /**
  * Renderiza o gráfico de barras de estudos por disciplina.
  */
-function renderReportsChart() {
+function renderReportsChart()
+{
     const db = getDB();
     const container = document.getElementById('reports-chart-container');
     container.innerHTML = '';
@@ -69,4 +75,60 @@ function renderReportsChart() {
         `;
         container.appendChild(barElement);
     }
+    /**
+ * Gráfico de Pizza — Revisões Concluídas x Pendentes
+ */
+function renderRevisionPieChart() {
+    const db = getDB();
+    const completed = db.revisions.filter(r => r.status === "completed").length;
+    const pending = db.revisions.filter(r => r.status === "pending").length;
+
+    const ctx = document.getElementById("revisionPieChart");
+
+    new Chart(ctx, {
+        type: "doughnut",
+        data: {
+            labels: ["Concluídas", "Pendentes"],
+            datasets: [{
+                data: [completed, pending],
+                backgroundColor: ["#16a34a", "#dc2626"]
+            }]
+        }
+    });
+}
+
+/**
+ * Gráfico de Linha — Evolução das Horas Estudadas por Dia
+ */
+function renderStudyLineChart() {
+    const db = getDB();
+
+    const grouped = {};
+    db.studies.forEach(st => {
+        if (!grouped[st.date]) grouped[st.date] = 0;
+        grouped[st.date] += st.time;
+    });
+
+    const labels = Object.keys(grouped).sort();
+    const values = labels.map(d => (grouped[d] / 60).toFixed(1)); // horas
+
+    const ctx = document.getElementById("studyLineChart");
+
+    new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Horas por dia",
+                data: values,
+                fill: false,
+                borderWidth: 2
+            }]
+        },
+        options: {
+            tension: 0.3
+        }
+    });
+}
+
 }
