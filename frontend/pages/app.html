@@ -221,6 +221,19 @@
                 </div>
                 <div class="card">
                     <div id="reports-chart-container" class="chart-container">
+                        <div class="section-header" style="margin-top: 2rem;">
+    <h3>Revisões: Concluídas x Pendentes</h3>
+</div>
+<div class="card">
+    <canvas id="revisionPieChart"></canvas>
+</div>
+
+<div class="section-header" style="margin-top: 2rem;">
+    <h3>Evolução das Horas Estudadas</h3>
+</div>
+<div class="card">
+    <canvas id="studyLineChart"></canvas>
+</div>
                         <div class="empty-state">
                             Nenhum dado de estudo para exibir.
                         </div>
@@ -234,6 +247,8 @@
     <div id="toast-notification">Notificação</div>
 
     <script type="module" src="../js/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
 </body>
 </html>
