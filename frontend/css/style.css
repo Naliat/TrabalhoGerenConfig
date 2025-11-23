@@ -799,4 +799,60 @@ body {
         -webkit-print-color-adjust: exact; 
         print-color-adjust: exact;
     }
+    /* ============================
+   MENU HAMBURGUER RESPONSIVO
+   ============================ */
+
+.hamburger {
+    display: none;
+    font-size: 30px;
+    cursor: pointer;
+    padding: 14px;
+    background: var(--primary-dark);
+    color: white;
+    width: 60px;
+    text-align: center;
+    z-index: 1000;
+}
+
+@media (max-width: 768px) {
+
+    /* Exibir botão no mobile */
+    .hamburger {
+        display: block;
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        border-radius: 8px;
+    }
+
+    /* Sidebar escondida por padrão */
+    .sidebar {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 240px;
+        padding-top: 60px;
+        flex-direction: column;
+        background: var(--primary-dark);
+        z-index: 999;
+        animation: slideIn 0.25s ease;
+    }
+
+    /* Sidebar quando aberta */
+    .sidebar.open {
+        display: flex !important;
+    }
+
+    @keyframes slideIn {
+        from { transform: translateX(-100%); }
+        to { transform: translateX(0); }
+    }
+
+    /* Evita overlap visual do conteúdo */
+    .main-content {
+        padding-top: 70px;
+    }
 }
