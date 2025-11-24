@@ -63,9 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 7. Exibe a página inicial (Dashboard)
     showContentSection('dashboard');
 
-    // 8. Menu
-    function toggleMenu() {
-    document.querySelector('.sidebar').classList.toggle('sidebar-open');
 }
 
 });
