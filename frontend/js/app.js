@@ -63,6 +63,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // 7. Exibe a página inicial (Dashboard)
     showContentSection('dashboard');
 
-}
+    // Lógica do Menu Hamburguer
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const sidebar = document.querySelector('.sidebar');
+    const navLinks = document.querySelectorAll('.nav-link');
 
+    if (menuBtn) {
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('menu-open');
+        });
+    }
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.remove('menu-open');
+            }
+        });
+    });
 });
