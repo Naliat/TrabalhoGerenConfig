@@ -1030,6 +1030,8 @@ body {
     text-align: center;
     z-index: 1000;
 }
+
+/* Media Queries para Responsividade */
 @media (max-width: 768px) {
     .app-container {
         flex-direction: column;
@@ -1038,11 +1040,103 @@ body {
     .sidebar {
         width: 100%;
         height: auto;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+    }
+    
+    .sidebar-header {
+        padding: 0.5rem;
+        border: none;
+    }
+    
+    .sidebar-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .sidebar-nav {
+        display: flex;
+        flex: 1;
+        padding: 0;
+        overflow-x: auto;
+    }
+    
+    .nav-link {
+        margin-bottom: 0;
+        padding: 0.75rem;
+        flex-direction: column;
+    }
+    
+    .nav-link span {
+        font-size: 0.7rem;
+    }
+    
+    .nav-link svg {
+        margin-right: 0;
+        margin-bottom: 0.25rem;
+        width: 20px;
+        height: 20px;
+    }
+    
+    .sidebar-footer {
+        padding: 0.5rem;
+        border: none;
+    }
+    
+    .btn-logout {
+        padding: 0.5rem;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        font-size: 0; /* Esconde texto */
+    }
+    
+    .main-content {
+        padding: 1.5rem;
+    }
+    
+    .main-header h2 {
+        font-size: 1.75rem;
+    }
+    
+    .grid-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .split-screen {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+    }
+
+    .left-panel {
+        flex: none;
+        height: 250px;
+    }
+
+    .brand-logo h1 {
+        font-size: 2.5rem;
+    }
+    
+    .right-panel {
+        flex: none;
+        width: 100%;
+        padding: 2rem 1.5rem 4rem 1.5rem;
+    }
+
+    .btn-hamburger {
+        display: block;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
         flex-direction: column;
         padding: 0;
         position: relative;
     }
-    
+
     .sidebar-header {
         display: flex;
         justify-content: space-between;
@@ -1051,15 +1145,7 @@ body {
         width: 100%;
         border-bottom: none;
     }
-    
-    .sidebar-header h1 {
-        font-size: 1.5rem;
-    }
-    
-    .btn-hamburger {
-        display: block;
-    }
-    
+
     .sidebar-nav,
     .sidebar-footer {
         display: none;
@@ -1076,7 +1162,7 @@ body {
     
     .nav-link {
         display: flex;
-        flex-direction: row;
+        flex-direction: row; /* ícone ao lado do texto */
         align-items: center;
         justify-content: flex-start;
         margin-bottom: 0.5rem;
@@ -1131,29 +1217,8 @@ body {
         from { opacity: 0; transform: translateY(-10px); }
         to { opacity: 1; transform: translateY(0); }
     }
-
-    .split-screen {
-        flex-direction: column;
-        height: auto;
-        min-height: 100vh;
-        overflow: visible;
-    }
-
-    .left-panel {
-        flex: none;
-        height: 250px;
-    }
-
-    .brand-logo h1 {
-        font-size: 2.5rem;
-    }
-    
-    .right-panel {
-        flex: none;
-        width: 100%;
-        padding: 2rem 1.5rem 4rem 1.5rem;
-    }
 }
+
 @media print {
 
     /* Esconde tudo que não deve ser impresso */
