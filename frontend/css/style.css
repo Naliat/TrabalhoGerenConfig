@@ -1154,4 +1154,63 @@ body {
         padding: 2rem 1.5rem 4rem 1.5rem;
     }
 }
+@media print {
 
+    /* Esconde tudo que não deve ser impresso */
+    .sidebar,
+    .main-header h2, /* Esconde o título principal "Olá, Aluno!" */
+    .btn,
+    .nav-link,
+    .sidebar-footer,
+    .tabs-nav,
+    .section-header .btn-secondary, /* Esconde botões de editar/salvar */
+    .no-print, /* Classe utilitária para esconder */
+    #toast-notification {
+        display: none !important;
+    }
+
+    /* Reseta o layout principal */
+    .app-container {
+        display: block;
+        height: auto;
+    }
+    
+    .main-content {
+        padding: 0;
+        overflow: visible;
+        width: 100%;
+    }
+
+    /* Força que APENAS a seção ativa seja impressa */
+    .content-section {
+        display: none !important;
+    }
+    
+    .content-section.active {
+        display: block !important;
+        animation: none;
+    }
+
+    /* Ajustes finos para impressão */
+    body {
+        background-color: #ffffff;
+        color: #000000;
+    }
+
+    .card, .table-container {
+        box-shadow: none;
+        border: 1px solid #ccc;
+        page-break-inside: avoid; /* Tenta não quebrar cards/tabelas no meio da página */
+    }
+
+    .schedule-table th, .schedule-table td {
+        color: #000;
+        border-color: #ccc;
+    }
+    
+    .chart-bar-fill {
+        /* Garante que a cor da barra seja impressa (navegadores podem desativar) */
+        -webkit-print-color-adjust: exact; 
+        print-color-adjust: exact;
+    }
+}
