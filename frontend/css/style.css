@@ -645,7 +645,95 @@ body {
     background-color: var(--bg-light);
 }
 
-/* Media Queries para Responsividade */
+/* Botão Hamburguer (Escondido no Desktop) */
+.btn-hamburger {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--bg-light);
+    cursor: pointer;
+    padding: 5px;
+}
+
+.btn-hamburger svg {
+    width: 28px;
+    height: 28px;
+}
+
+/* --- GRÁFICOS E RELATÓRIOS --- */
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.chart-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Containers dos gráficos Chart.js */
+.chart-card {
+    background-color: var(--bg-light);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.chart-card canvas {
+    max-width: 100%;
+    height: 300px !important;
+}
+
+/* Cores para as barras do gráfico personalizado */
+#reports-chart-container .chart-bar-fill[style*="#3b82f6"] { background-color: #3b82f6 !important; }
+#reports-chart-container .chart-bar-fill[style*="#f59e0b"] { background-color: #f59e0b !important; }
+#reports-chart-container .chart-bar-fill[style*="#16a34a"] { background-color: #16a34a !important; }
+#reports-chart-container .chart-bar-fill[style*="#dc2626"] { background-color: #dc2626 !important; }
+#reports-chart-container .chart-bar-fill[style*="#6366f1"] { background-color: #6366f1 !important; }
+#reports-chart-container .chart-bar-fill[style*="#ec4899"] { background-color: #ec4899 !important; }
+
+/* Estados vazios */
+.empty-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--text-light);
+    font-style: italic;
+    background-color: var(--bg-light);
+    border: 2px dashed var(--border-color);
+    border-radius: 12px;
+}
+
+/* Botões de exportação */
+.btn-group-export {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    width: auto;
+}
+
+/* --- RESPONSIVIDADE PARA GRÁFICOS --- */
+
+@media (max-width: 1024px) {
+    .charts-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .chart-card canvas {
+        height: 250px !important;
+    }
+}
+
 @media (max-width: 768px) {
     .app-container {
         flex-direction: column;
@@ -716,6 +804,23 @@ body {
     .grid-3 {
         grid-template-columns: 1fr;
     }
+    
+    .charts-grid {
+        margin-top: 1rem;
+    }
+    
+    .chart-card {
+        padding: 1rem;
+    }
+    
+    .chart-card canvas {
+        height: 200px !important;
+    }
+    
+    .btn-group-export {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
 
     .split-screen {
         flex-direction: column;
@@ -738,11 +843,125 @@ body {
         width: 100%;
         padding: 2rem 1.5rem 4rem 1.5rem;
     }
+
+    .btn-hamburger {
+        display: block;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+        padding: 0;
+        position: relative;
+    }
+
+    .sidebar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.5rem;
+        width: 100%;
+        border-bottom: none;
+    }
+
+    .sidebar-nav,
+    .sidebar-footer {
+        display: none;
+        width: 100%;
+        background-color: var(--primary-dark);
+        padding: 0 1rem;
+    }
+    
+    .sidebar-nav {
+        flex-direction: column;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        padding-top: 8px;
+    }
+    
+    .nav-link {
+        display: flex;
+        flex-direction: row; /* ícone ao lado do texto */
+        align-items: center;
+        justify-content: flex-start;
+        margin-bottom: 0.5rem;
+        padding: 1rem;
+        text-align: left;
+    }
+    
+    .nav-link svg {
+        margin-right: 1rem !important;
+        margin-bottom: 0 !important;
+        width: 24px;
+        height: 24px;
+    }
+    
+    .nav-link span {
+        font-size: 1rem;
+        display: block !important;
+    }
+
+    .sidebar-footer {
+        padding: 1.5rem 1rem;
+        border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .btn-logout {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        padding: 0.8rem;
+        font-size: 1rem;
+        display: block;
+        text-align: center;
+    }
+
+    .main-content {
+        padding: 1.5rem;
+        margin-top: 0;
+    }
+
+    .grid-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar.menu-open .sidebar-nav,
+    .sidebar.menu-open .sidebar-footer {
+        display: flex;
+        flex-direction: column;
+        animation: slideDown 0.3s ease-out;
+    }
+    
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 }
 
-@media print {
+@media (max-width: 480px) {
+    .chart-card canvas {
+        height: 180px !important;
+    }
+}
 
-    /* Esconde tudo que não deve ser impresso */
+/* --- ANIMAÇÕES --- */
+@keyframes slideIn {
+    from { 
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.chart-card {
+    animation: slideIn 0.5s ease-out;
+}
+
+/* --- IMPRESSÃO --- */
+@media print {
     .sidebar,
     .main-header h2, /* Esconde o título principal "Olá, Aluno!" */
     .btn,
@@ -799,60 +1018,19 @@ body {
         -webkit-print-color-adjust: exact; 
         print-color-adjust: exact;
     }
-    /* ============================
-   MENU HAMBURGUER RESPONSIVO
-   ============================ */
-
-.hamburger {
-    display: none;
-    font-size: 30px;
-    cursor: pointer;
-    padding: 14px;
-    background: var(--primary-dark);
-    color: white;
-    width: 60px;
-    text-align: center;
-    z-index: 1000;
-}
-
-@media (max-width: 768px) {
-
-    /* Exibir botão no mobile */
-    .hamburger {
-        display: block;
-        position: fixed;
-        top: 10px;
-        left: 10px;
-        border-radius: 8px;
+    
+    .charts-grid {
+        grid-template-columns: 1fr;
+        break-inside: avoid;
     }
-
-    /* Sidebar escondida por padrão */
-    .sidebar {
+    
+    .chart-card {
+        box-shadow: none;
+        border: 1px solid #ccc;
+        break-inside: avoid;
+    }
+    
+    .btn-group-export {
         display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        width: 240px;
-        padding-top: 60px;
-        flex-direction: column;
-        background: var(--primary-dark);
-        z-index: 999;
-        animation: slideIn 0.25s ease;
-    }
-
-    /* Sidebar quando aberta */
-    .sidebar.open {
-        display: flex !important;
-    }
-
-    @keyframes slideIn {
-        from { transform: translateX(-100%); }
-        to { transform: translateX(0); }
-    }
-
-    /* Evita overlap visual do conteúdo */
-    .main-content {
-        padding-top: 70px;
     }
 }
