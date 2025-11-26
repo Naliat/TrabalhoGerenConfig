@@ -660,80 +660,7 @@ body {
     height: 28px;
 }
 
-/* --- GRÁFICOS E RELATÓRIOS --- */
-
-.charts-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    margin-top: 2rem;
-}
-
-.chart-wrapper {
-    display: flex;
-    flex-direction: column;
-}
-
-/* Containers dos gráficos Chart.js */
-.chart-card {
-    background-color: var(--bg-light);
-    border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-    border: 1px solid var(--border-color);
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.chart-card canvas {
-    max-width: 100%;
-    height: 300px !important;
-}
-
-/* Cores para as barras do gráfico personalizado */
-#reports-chart-container .chart-bar-fill[style*="#3b82f6"] { background-color: #3b82f6 !important; }
-#reports-chart-container .chart-bar-fill[style*="#f59e0b"] { background-color: #f59e0b !important; }
-#reports-chart-container .chart-bar-fill[style*="#16a34a"] { background-color: #16a34a !important; }
-#reports-chart-container .chart-bar-fill[style*="#dc2626"] { background-color: #dc2626 !important; }
-#reports-chart-container .chart-bar-fill[style*="#6366f1"] { background-color: #6366f1 !important; }
-#reports-chart-container .chart-bar-fill[style*="#ec4899"] { background-color: #ec4899 !important; }
-
-/* Estados vazios */
-.empty-state {
-    text-align: center;
-    padding: 3rem 2rem;
-    color: var(--text-light);
-    font-style: italic;
-    background-color: var(--bg-light);
-    border: 2px dashed var(--border-color);
-    border-radius: 12px;
-}
-
-/* Botões de exportação */
-.btn-group-export {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-}
-
-.btn-sm {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    width: auto;
-}
-
-/* --- RESPONSIVIDADE PARA GRÁFICOS --- */
-
-@media (max-width: 1024px) {
-    .charts-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-    
-    .chart-card canvas {
-        height: 250px !important;
-    }
-}
-
+/* Media Queries para Responsividade */
 @media (max-width: 768px) {
     .app-container {
         flex-direction: column;
@@ -803,23 +730,6 @@ body {
     
     .grid-3 {
         grid-template-columns: 1fr;
-    }
-    
-    .charts-grid {
-        margin-top: 1rem;
-    }
-    
-    .chart-card {
-        padding: 1rem;
-    }
-    
-    .chart-card canvas {
-        height: 200px !important;
-    }
-    
-    .btn-group-export {
-        flex-wrap: wrap;
-        justify-content: flex-start;
     }
 
     .split-screen {
@@ -938,30 +848,9 @@ body {
     }
 }
 
-@media (max-width: 480px) {
-    .chart-card canvas {
-        height: 180px !important;
-    }
-}
-
-/* --- ANIMAÇÕES --- */
-@keyframes slideIn {
-    from { 
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to { 
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.chart-card {
-    animation: slideIn 0.5s ease-out;
-}
-
-/* --- IMPRESSÃO --- */
 @media print {
+
+    /* Esconde tudo que não deve ser impresso */
     .sidebar,
     .main-header h2, /* Esconde o título principal "Olá, Aluno!" */
     .btn,
@@ -1017,20 +906,5 @@ body {
         /* Garante que a cor da barra seja impressa (navegadores podem desativar) */
         -webkit-print-color-adjust: exact; 
         print-color-adjust: exact;
-    }
-    
-    .charts-grid {
-        grid-template-columns: 1fr;
-        break-inside: avoid;
-    }
-    
-    .chart-card {
-        box-shadow: none;
-        border: 1px solid #ccc;
-        break-inside: avoid;
-    }
-    
-    .btn-group-export {
-        display: none;
     }
 }
