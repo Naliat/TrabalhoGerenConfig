@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
 
 :root {
     --primary-dark: #1e40af; /* 800 */
@@ -14,6 +14,8 @@
     --success: #16a34a;
     --danger: #dc2626;
     --warning: #f59e0b;
+    /* Variável Pomodoro (usando Primary Main, mas pode ser ajustada) */
+    --color-pomodoro: var(--primary-main);
 }
 
 * {
@@ -547,11 +549,16 @@ body {
 }
 
 #reports-chart-container .chart-bar-label {
+    /* Regras para desktop (truncar texto longo) */
     min-width: 150px;
     text-align: right;
     font-weight: 500;
     color: var(--text-dark);
     font-size: 0.9rem;
+    
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
 }
 
 #reports-chart-container .chart-bar-track {
@@ -625,7 +632,7 @@ body {
     width: auto;
 }
 
-/* Relatórios */
+/* Relatórios (Estilos de barra de progresso) */
 .chart-container {
     display: flex;
     flex-direction: column;
@@ -693,7 +700,7 @@ body {
 }
 
 /* --- 6. Layout Split Screen (Login/Cadastro) --- */
-
+/* ... (Mantenha estilos de Split Screen) ... */
 .register-bg {
     background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
                       url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070&auto=format&fit=crop');
@@ -702,7 +709,6 @@ body {
     background-attachment: fixed;
 }
 
-/* Container que divide a tela */
 .split-screen {
     display: flex;
     height: 100vh;
@@ -875,10 +881,14 @@ body {
     .main-content {
         padding: 1.5rem;
         margin-top: 0;
+        overflow-x: hidden; /* CORREÇÃO: Previne scroll horizontal */
     }
 
     .main-header h2 {
         font-size: 1.75rem;
+        overflow-wrap: break-word; /* CORREÇÃO: Força quebra de linha em títulos longos */
+        word-wrap: break-word;
+        hyphens: auto; 
     }
     
     .grid-3 {
@@ -889,22 +899,29 @@ body {
         margin-top: 1rem;
     }
     
+    /* CORREÇÃO: Ajuste para Barras de Relatório no Mobile (Permitindo quebra de linha) */
     #reports-chart-container .chart-bar-group {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.5rem;
+        width: 100%; 
     }
     
     #reports-chart-container .chart-bar-label {
+        /* Permite quebra de linha */
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
         min-width: auto;
         text-align: left;
-        width: 100%;
+        width: 100%; 
     }
     
     #reports-chart-container .chart-bar-track {
         width: 100%;
     }
-    
+    /* FIM CORREÇÃO RELATÓRIO */
+
     .chart-card {
         padding: 1rem;
     }
@@ -964,7 +981,7 @@ body {
     }
 }
 
-/* --- ANIMAÇÕES --- */
+/* --- ANIMAÇÕES E IMPRESSÃO --- */
 @keyframes slideIn {
     from { 
         opacity: 0;
@@ -980,8 +997,8 @@ body {
     animation: slideIn 0.5s ease-out;
 }
 
-/* --- IMPRESSÃO --- */
 @media print {
+    /* ... (Mantenha estilos de impressão) ... */
     .sidebar,
     .main-header h2,
     .btn,

@@ -1,0 +1,218 @@
+:root {
+    --color-primary: #FF6347;
+    --color-success: #4CAF50;
+    --color-warning: #FFC107;
+    --color-secondary: #6c757d;
+    --color-bg-light: #ffffff;
+    --color-bg-dark: #f0f4f8;
+    --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#content-focus .pomodoro-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 30px 20px;
+    text-align: center;
+    background-color: var(--color-bg-light);
+    border-radius: 15px;
+    box-shadow: var(--shadow-light);
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+#content-focus .pomodoro-config {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    width: 100%;
+}
+
+#content-focus .pomodoro-config .form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-grow: 1;
+    min-width: 100px;
+}
+
+#content-focus .pomodoro-config .form-control {
+    text-align: center;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
+    font-weight: 500;
+}
+
+#content-focus #apply-config {
+    align-self: flex-end;
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    margin-bottom: 2px;
+}
+
+#content-focus .pomodoro-settings {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    justify-content: center;
+}
+
+#content-focus .btn-tab {
+    padding: 10px 15px;
+    border: 2px solid transparent;
+    border-radius: 25px;
+    cursor: pointer;
+    background-color: var(--color-bg-dark);
+    color: #444;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    flex-grow: 1;
+    max-width: 180px;
+}
+
+#content-focus .btn-tab:hover {
+    background-color: #e0e0e0;
+}
+
+#content-focus .btn-tab.active {
+    background-color: var(--color-primary);
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 4px 8px rgba(255, 99, 71, 0.4);
+}
+
+#content-focus .pomodoro-timer {
+    font-size: 8rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    color: var(--color-primary);
+    letter-spacing: -3px;
+    min-width: 300px;
+    margin: 10px 0;
+}
+
+#content-focus .pomodoro-controls {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+    justify-content: center;
+}
+
+#content-focus .btn-lg {
+    padding: 18px 35px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    min-width: 140px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.1s;
+}
+
+#content-focus .btn-lg:active {
+    transform: translateY(2px);
+}
+
+#content-focus .btn-success {
+    background-color: var(--color-success);
+    color: white;
+}
+
+#content-focus .btn-warning {
+    background-color: var(--color-warning);
+    color: #333;
+}
+
+#content-focus .btn-secondary {
+    background-color: var(--color-secondary);
+    color: white;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#content-focus .pomodoro-info {
+    margin-top: 2rem;
+    padding: 25px;
+    border-radius: 10px;
+    background-color: var(--color-bg-dark);
+    border-left: 5px solid var(--color-primary);
+    text-align: left;
+    max-width: 600px;
+    margin: 2rem auto 0 auto;
+}
+
+#content-focus .pomodoro-info h3 {
+    margin-top: 0;
+    color: var(--color-primary);
+}
+
+
+@media (max-width: 600px) {
+
+    #content-focus .pomodoro-container {
+        gap: 20px;
+        padding: 20px 15px;
+        box-shadow: none;
+    }
+
+    #content-focus .pomodoro-timer {
+        font-size: 5rem;
+        min-width: auto;
+    }
+
+    #content-focus .pomodoro-config {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #content-focus .pomodoro-config .form-group {
+        align-items: center;
+    }
+
+    #content-focus .pomodoro-config label {
+        margin-bottom: 5px;
+    }
+
+    #content-focus .pomodoro-config input {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    #content-focus #apply-config {
+        width: 100%;
+        margin-top: 10px;
+        align-self: center;
+    }
+
+    #content-focus .pomodoro-settings {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    #content-focus .btn-tab {
+        width: 100%;
+        max-width: 100%;
+        padding: 12px 15px;
+        border-radius: 10px;
+    }
+
+    #content-focus .pomodoro-controls {
+        flex-wrap: wrap;
+        gap: 10px;
+        width: 100%;
+    }
+
+    #content-focus .btn-lg {
+        flex-grow: 1;
+        padding: 15px 10px;
+        font-size: 1rem;
+        min-width: 45%;
+    }
+}
