@@ -5,7 +5,6 @@ import logging
 import re
 import os
 from datetime import datetime
-
  
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail, From, To, Subject, HtmlContent, PlainTextContent
@@ -47,7 +46,8 @@ def send_reset_email_sendgrid(email, token, name=""):
             logger.error(f"❌ Chave API ({bool(api_key)}) ou Remetente ({bool(sender_email)}) do SendGrid não configurada.")
             return False, "Configuração de email não encontrada"
         
-        reset_url = f"{frontend_url}/reset-password.html?email={email}&token={token}"
+        # CORREÇÃO APLICADA AQUI: Incluindo /pages/ no caminho do link
+        reset_url = f"{frontend_url}/pages/reset-password.html?email={email}&token={token}"
         
         html_content = f"""
         <!DOCTYPE html>
@@ -461,7 +461,7 @@ def forgot_password():
         
         if is_development and "Configuração de email não encontrada" in mensagem:
             frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5500")
-            reset_url = f"{frontend_url}/reset-password.html?email={email}&token={token}"
+            reset_url = f"{frontend_url}/reset-password.html?email={email}&token={token}" 
             return jsonify({
                 "message": "Modo desenvolvimento - email não enviado (falha de configuração)",
                 "token": token,
