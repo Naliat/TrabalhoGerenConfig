@@ -1,73 +1,75 @@
-# SITASK - Sistema de Gerenciamento de Estudos e Revisões
-
-## Sobre esse sistema;
-
-### Esse sistema foi proposto na disciplina de Linguagens de Programação da Universidade Federal do Ceará e visa ajudar nas atividades dos estudantes.
+# SITASK - Sistema de Gerenciamento de Estudos e Revisões 🧠
 
 ---
 
-## 🌐 Acesse o projeto online
-🔗 [Clique aqui para acessar o site](https://trab-de-lip-sitask.onrender.com/)
+### 💡 Sobre o Projeto
 
-ou se achar melhor
+O **SITasks** é uma aplicação web desenvolvida como projeto final para a disciplina de **Linguagens de Programação** da Universidade Federal do Ceará (UFC).
 
-## 📱 QR Code do site
-Para acessar rapidamente, basta escanear o QR Code abaixo:
+O sistema visa **auxiliar estudantes** no gerenciamento eficiente de suas rotinas acadêmicas, oferecendo ferramentas para organizar cronogramas, registrar sessões de estudo, agendar revisões periódicas e acompanhar o progresso em diferentes disciplinas.
+
+
+### 🌐 Acesse o Projeto Online
+
+O projeto está hospedado e disponível para uso imediato:
+
+🔗 **[Clique aqui para acessar o site](https://trab-de-lip-sitask.onrender.com/)**
+
+#### 📱 QR Code do site
+
+Para acesso rápido via dispositivo móvel:
 
 ![QR Code do site](./QrcodeSite.png)
 
 ---
 
-## 🖥️ Tecnologias utilizadas
+### Tecnologias Utilizadas
 
-### Frontend
-- **HTML5** → Estrutura das páginas
-- **CSS3** → Estilização e layout responsivo
-- **JavaScript (ES6+)** → Lógica de interação e funcionalidades
-- Organização em módulos (`js/`) para funcionalidades como:
-  - `login.js`, `register.js`, `usuario.js`
-  - `cronograma.js`, `estudos.js`, `revisoes.js`
-  - `notifications.js`, `export.js`, `utils.js`
+O SITasks é construído como uma aplicação Full-Stack, utilizando a seguinte pilha tecnológica:
 
-### Backend
-- **Python 3.12** → Linguagem principal
-- **Flask** → Framework web para rotas e APIs
-- **SQLAlchemy** → ORM para manipulação do banco de dados
-- **SQLite/PostgreSQL** (dependendo da configuração futura) → Banco de dados
-- Estrutura modular:
-  - `app/models`, `app/routes`, `app/services`, `app/utils`
-  - Arquivos principais: `run.py`, `config.py`, `database.py`
+#### Frontend (Client-Side)
+
+| Categoria | Tecnologia | Uso Principal |
+| :--- | :--- | :--- |
+| **Estrutura** | **HTML5** | Fornece a estrutura semântica das páginas. |
+| **Estilização** | **CSS3** | Layout responsivo e design da interface. |
+| **Lógica** | **JavaScript (ES6+)** | Interação com o usuário e comunicação via API. |
+| **Organização** | **Módulos JS** | Separação de lógica em arquivos como `login.js`, `reset-password.js` e `forgot-password.js`. |
+
+#### Backend (API e Servidor)
+
+| Categoria | Tecnologia | Uso Principal |
+| :--- | :--- | :--- |
+| **Linguagem** | **Python 3.12** | Linguagem principal de back-end. |
+| **Framework** | **Flask** | Micro-framework para criação das rotas RESTful da API. |
+| **Banco de Dados** | **MongoDB** | Armazenamento NoSQL para dados de usuários e tarefas. |
+| **E-mail** | **SendGrid** | Serviço para envio de e-mails transacionais (ex: recuperação de senha). |
+| **Utilidades** | `Flask-CORS`, `python-dotenv`, `bson` | Gerenciamento de CORS, variáveis de ambiente e manipulação de IDs do MongoDB. |
 
 ---
 
-## 📂 Estrutura de diretórios
+### Estrutura de Diretórios
+
+A estrutura do projeto separa claramente o *backend* (API Flask) e o *frontend* (HTML/CSS/JS):
 
 ```bash
 .
 ├── backend
-│   ├── app
-│   ├── config.py
-│   ├── database.py
-│   ├── instance
-│   ├── run.py
-│   └── tests
+│   ├── app
+│   │   ├── config.py
+│   │   ├── database.py
+│   │   ├── models
+│   │   ├── routes
+│   │   └── services
+│   ├── instance
+│   ├── run.py
+│   └── tests
 ├── frontend
-│   ├── assets
-│   ├── css
-│   │   └── style.css
-│   ├── index.html
-│   ├── js
-│   └── pages
+│   ├── assets
+│   ├── css
+│   ├── js
+│   ├── index.html
+│   └── pages
 ├── padraoCommits.txt
 ├── README.md
 └── venv
-
-```
-
-## Autores
-
-Esse projeto foi desenvolvido por:
-
-- [Tailan de Souza](https://github.com/Naliat)
-- [Carlos Jefferson](https://github.com/carlosjeferson)
-- [Lucas Anthony]()
