@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SI-Tasks — Painel Admin</title>
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Painel de Administração — SI-Tasks</h1>
+      <div class="header-actions">
+        <input id="admin-key" type="password" placeholder="Chave Admin (X-ADMIN-KEY)" />
+        <button id="btn-set-key">Usar chave</button>
+        <button id="btn-refresh">Atualizar</button>
+      </div>
+    </header>
+
+    <main>
+      <section id="users-section">
+        <h2>Usuários</h2>
+        <div id="users-count">Carregando...</div>
+        <table id="users-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Email</th>
+              <th>Nome</th>
+              <th>Criado em</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <!-- Modal de edição simples -->
+      <div id="modal" class="modal hidden">
+        <div class="modal-content">
+          <h3>Editar usuário</h3>
+          <input id="edit-id" type="hidden">
+          <label>
+            Email
+            <input id="edit-email" type="email">
+          </label>
+          <label>
+            Nome
+            <input id="edit-name" type="text">
+          </label>
+          <label>
+            Nova senha (opcional)
+            <input id="edit-password" type="password" placeholder="Deixe vazio para manter">
+          </label>
+          <div class="modal-actions">
+            <button id="btn-save">Salvar</button>
+            <button id="btn-cancel">Cancelar</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="toast" class="toast"></div>
+    </main>
+
+    <footer>
+      <small>Uso local / Admin — NÃO subir no GitHub</small>
+    </footer>
+  </div>
+
+  <script src="../js/admin.js"></script>
+</body>
+</html>
