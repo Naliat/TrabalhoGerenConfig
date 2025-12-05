@@ -1,11 +1,174 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SITasks - Registro</title>
-  <link rel="stylesheet" href="../css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SITasks - Registro</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .feedback-message {
+            font-size: 0.85rem;
+            margin-top: 5px;
+            min-height: 20px;
+            padding-left: 5px;
+            display: block;
+        }
+
+        .error-message {
+            color: #dc3545;
+        }
+
+        .success-message {
+            color: #28a745;
+        }
+
+        .form-control.invalid {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        }
+
+        .form-control.valid {
+            border-color: #28a745;
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+        }
+
+        /* Barra de força da senha */
+        .password-strength-container {
+            margin-top: 8px;
+        }
+
+        .password-strength-bar {
+            height: 8px;
+            width: 100%;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 4px;
+        }
+
+        .password-strength-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 4px;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+
+        .strength-very-weak {
+            width: 20%;
+            background-color: #dc3545;
+        }
+
+        .strength-weak {
+            width: 40%;
+            background-color: #fd7e14;
+        }
+
+        .strength-fair {
+            width: 60%;
+            background-color: #ffc107;
+        }
+
+        .strength-good {
+            width: 80%;
+            background-color: #28a745;
+        }
+
+        .strength-excellent {
+            width: 100%;
+            background-color: #20c997;
+        }
+
+        .password-strength-text {
+            font-size: 0.8rem;
+            color: #6c757d;
+            text-align: right;
+        }
+
+        .password-requirements {
+            margin-top: 8px;
+            padding-left: 20px;
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        .password-requirements li {
+            margin-bottom: 4px;
+            list-style-type: none;
+            position: relative;
+        }
+
+        .password-requirements li:before {
+            content: "○";
+            position: absolute;
+            left: -20px;
+            color: #6c757d;
+        }
+
+        .password-requirements li.valid:before {
+            content: "✓";
+            color: #28a745;
+        }
+
+        .password-requirements li.invalid:before {
+            content: "✗";
+            color: #dc3545;
+        }
+
+        #toast-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            border-radius: 4px;
+            color: white;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s, transform 0.3s;
+            max-width: 300px;
+        }
+
+        #toast-notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #toast-notification.success {
+            background-color: #28a745;
+        }
+
+        #toast-notification.error {
+            background-color: #dc3545;
+        }
+
+        #toast-notification.warning {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .password-input-wrapper {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #6c757d;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .toggle-password:hover {
+            color: #495057;
+        }
+    </style>
 </head>
+
 <body>
     <div class="auth-container register-bg">
         <div class="auth-box">
@@ -13,27 +176,77 @@
                 <h1>SI<span>Tasks</span></h1>
                 <p>Crie sua conta gratuita.</p>
             </div>
-           <form id="register-form">
+            <form id="register-form">
                 <div class="form-group">
-                    <label for="register-name">Nome</label>
-                    <input type="" id="register-name" class="form-control" placeholder="Digite seu nome..." required>
+                    <label for="register-name">Nome Completo</label>
+                    <input type="text" id="register-name" class="form-control" placeholder="Digite seu nome completo..."
+                        required>
+                    <span id="name-feedback" class="feedback-message"></span>
                 </div>
+
                 <div class="form-group">
                     <label for="register-email">Email</label>
-                    <input type="email" id="register-email" class="form-control" placeholder="Digite seu email..." required>
+                    <input type="email" id="register-email" class="form-control" placeholder="exemplo@gmail.com"
+                        required>
+                    <span id="email-feedback" class="feedback-message"></span>
                 </div>
+
                 <div class="form-group">
                     <label for="register-password">Senha</label>
-                    <input type="password" id="register-password" class="form-control" minlength="6" placeholder="Digite sua senha..." required>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="register-password" class="form-control" minlength="8"
+                            placeholder="Digite uma senha forte..." required>
+                        <button type="button" class="toggle-password" id="toggle-password">
+                            👁
+                        </button>
+                    </div>
+
+                    <div class="password-strength-container">
+                        <div class="password-strength-bar">
+                            <div class="password-strength-fill" id="password-strength-fill"></div>
+                        </div>
+                        <div class="password-strength-text" id="password-strength-text">
+                            Força da senha: Muito fraca
+                        </div>
+                    </div>
+
+                    <ul class="password-requirements" id="password-requirements">
+                        <li id="req-length" data-min="8">Pelo menos 8 caracteres</li>
+                        <li id="req-uppercase">Pelo menos 1 letra maiúscula</li>
+                        <li id="req-lowercase">Pelo menos 1 letra minúscula</li>
+                        <li id="req-number">Pelo menos 1 número</li>
+                        <li id="req-special">Pelo menos 1 caractere especial (!@#$%^&*)</li>
+                    </ul>
+
+                    <span id="password-feedback" class="feedback-message"></span>
                 </div>
-                <button type="submit" class="btn btn-primary" id="register-button">Criar Conta</button>
+
+                <div class="form-group">
+                    <label for="confirm-password">Confirmar Senha</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="confirm-password" class="form-control"
+                            placeholder="Digite a senha novamente..." required>
+                        <button type="button" class="toggle-password" id="toggle-confirm-password">
+                            👁
+                        </button>
+                    </div>
+                    <span id="confirm-feedback" class="feedback-message"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="register-button">
+                    Criar Conta
+                </button>
             </form>
-            <p class="auth-switch">Já tem uma conta? <a href="login.html" class="auth-switch-link">Faça login</a></p>
+            <p class="auth-switch">
+                Já tem uma conta?
+                <a href="login.html" class="auth-switch-link">Faça login</a>
+            </p>
         </div>
     </div>
 
-<div id="toast-notification">Notificação</div>
+    <div id="toast-notification">Notificação</div>
 
-<script src="../js/register.js"></script>
+    <script src="../js/register.js"></script>
 </body>
+
 </html>
