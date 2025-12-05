@@ -1,47 +1,16 @@
-bcrypt==5.0.0
-blinker==1.9.0
-click==8.3.1
 dnspython==2.8.0
 Flask==2.3.3
 flask-cors==6.0.1
+Flask-JWT-Extended==4.6.0
+Flask-PyMongo==2.3.0
+gunicorn==23.0.0
 flask-pymongo==2.3.0
 itsdangerous==2.2.0
 Jinja2==3.1.6
 MarkupSafe==3.0.3
+packaging==25.0
+passlib==1.7.4
+PyJWT==2.10.1
 pymongo==4.15.4
 python-dotenv==1.2.1
 Werkzeug==3.1.3
-
-
-
-
-Seguem os pontos principais para ajustarmos no front-end:
-
-✅ 1. Melhorar o layout das telas de Login e Registro
-Deixar mais bonitas, modernas e esteticamente agradáveis.
-
-✅ 2. Separar o fluxo de “Registrar Estudo” das “Revisões”
-Hoje, quando um estudo é criado, as revisões surgem automaticamente.
-Queremos que o usuário tenha liberdade para agendar suas próprias revisões.
-
-✅ 3. Ajustar a responsividade no celular
-Atualmente não é possível navegar/sair em algumas telas.
-
-✅ 4. Corrigir a função de notificação
-A função de notificar tarefas pendentes e atrasadas precisa funcionar corretamente.
-
-🔍 Se durante os testes vocês perceberem oportunidades de melhoria, podem nos avisar.
-Mas acredito que esses são os pontos essenciais por enquanto.
-
-
-
-
-
-7 semestre
- 1 Logica para computação
- 2 Empreendedorismo
- 3 Algebra Linear
- 4 Visão computacional
- 5 Qualidade de Software \ Arquitetura de software
- 6 TCC 1
- 7 Estagio 1
