@@ -1,0 +1,31 @@
+# Ambiente virtual e caches
+.venv
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Git, IDEs, sistema
+.git
+.gitignore
+.vscode/
+.idea/
+.DS_Store
+
+# Arquivos sensíveis / dados
+.env
+*.db
+instance/
+backend/instance/*
+
+# Build / node
+node_modules
+frontend/dist
+frontend/.vite
+
+# Test / logs
+.pytest_cache/
+*.log
