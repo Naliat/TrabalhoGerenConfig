@@ -93,5 +93,6 @@ jobs:
       - uses: actions/checkout@v3
       - name: Validar docker-compose.yml
         run: |
+          touch backend/.env
           docker compose config > /dev/null
           echo "Docker Compose configurado corretamente!"
