@@ -1,0 +1,44 @@
+name: CI Pipeline - SITasks
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Criar arquivo .env temporário
+        run: |
+          touch ./backend/.env
+          echo "MONGO_URI=mongodb://localhost:27017/test" >> ./backend/.env
+          echo "SENDGRID_API_KEY=test_key" >> ./backend/.env
+
+      - name: Validar Dockerfiles (Build individual)
+        run: |
+          docker build ./backend -f backend/dockerfile -t trab-backend
+          docker build ./frontend -f frontend/dockerfile -t trab-frontend
+
+      - name: Testar Orquestração com Docker Compose
+        run: |
+          docker-compose up --build -d
+        
+          sleep 10
+        
+          docker ps
+            
+          if [ \$(docker ps -q -f status=running | wc -l) -lt 2 ]; then
+            echo "Erro: Um ou mais containers pararam de rodar."
+            docker-compose logs
+            exit 1
+          fi
+
+      - name: Encerrar ambiente
+        if: always()
+        run: docker-compose down
