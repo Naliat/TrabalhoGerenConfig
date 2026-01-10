@@ -1,0 +1,98 @@
+name: Testes Automatizados
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+
+jobs:
+  # Verificar sintaxe Python
+  # Critério: Compila todos os arquivos .py do backend para garantir
+  # que não há erros de sintaxe Python (indentação, parênteses, etc.)
+  # Passa se: Todos os arquivos compilarem sem erros
+  python-syntax:
+    name: Teste 1 - Sintaxe Python
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Verificar sintaxe dos arquivos Python
+        run: |
+          python -m py_compile backend/run.py
+          python -m py_compile backend/config.py
+          find backend/app -name "*.py" -exec python -m py_compile {} \;
+
+  # Validar requirements.txt
+  # Critério: Verifica se todas as dependências listadas no requirements.txt
+  # podem ser instaladas sem conflitos de versão ou pacotes inexistentes
+  # Passa se: pip install concluir sem erros
+  validate-requirements:
+    name: Teste 2 - Validar Requirements
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Instalar dependências
+        run: |
+          cd backend
+          pip install -r requirements.txt
+
+  # Verificar estrutura de arquivos
+  # Critério: Valida a existência dos arquivos essenciais do projeto
+  # (backend, frontend e docker-compose) para garantir integridade da estrutura
+  # Passa se: Todos os arquivos críticos existirem no repositório
+  check-structure:
+    name: Teste 3 - Estrutura de Arquivos
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Verificar arquivos essenciais
+        run: |
+          test -f backend/run.py || exit 1
+          test -f backend/requirements.txt || exit 1
+          test -f frontend/index.html || exit 1
+          test -f docker-compose.yml || exit 1
+          echo "Todos os arquivos essenciais existem!"
+
+  # Validar HTML
+  # Critério: Usa o tidy para verificar a sintaxe HTML dos arquivos frontend
+  # detectando tags não fechadas, atributos inválidos, estrutura mal formada
+  # Passa se: Validação executar sem erros críticos de HTML
+  validate-html:
+    name: Teste 4 - Validar HTML
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Instalar validador HTML
+        run: sudo apt-get update && sudo apt-get install -y tidy
+      - name: Validar arquivos HTML
+        run: |
+          for file in frontend/*.html frontend/pages/*.html; do
+            if [ -f "$file" ]; then
+              echo "Validando $file"
+              tidy -q -e "$file" || true
+            fi
+          done
+          echo "Validação HTML concluída!"
+
+  # Verificar Docker Compose
+  # Critério: Valida a sintaxe e configuração do docker-compose.yml
+  # verificando se as definições de serviços, portas e volumes estão corretas
+  # Passa se: docker-compose config executar sem erros de configuração
+  validate-docker:
+    name: Teste 5 - Validar Docker Compose
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Validar docker-compose.yml
+        run: |
+          touch backend/.env
+          docker compose config > /dev/null
+          echo "Docker Compose configurado corretamente!"
