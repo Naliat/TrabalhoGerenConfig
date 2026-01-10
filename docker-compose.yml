@@ -1,8 +1,19 @@
 # docker compose up --build -d
 
-version: '3.8'
-
 services:
+  mongodb:
+    image: mongo:7.0
+    container_name: trab-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=sitask
+    volumes:
+      - mongodb_data:/data/db
+    restart: unless-stopped
+    networks:
+      - app-network
+
   backend:
     build:
       context: ./backend
@@ -12,9 +23,14 @@ services:
       - ./backend/.env
     environment:
       - PYTHONUNBUFFERED=1
+      - MONGO_URI=mongodb://mongodb:27017/sitask
     ports:
       - "5000:5000"
     restart: unless-stopped
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
 
   frontend:
     build:
@@ -26,7 +42,13 @@ services:
     restart: unless-stopped
     depends_on:
       - backend
+    networks:
+      - app-network
+
+volumes:
+  mongodb_data:
+    driver: local
 
 networks:
-  default:
+  app-network:
     driver: bridge
