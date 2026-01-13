@@ -20,14 +20,8 @@ jobs:
           echo "MONGO_URI=mongodb://localhost:27017/test" >> ./backend/.env
           echo "SENDGRID_API_KEY=test_key" >> ./backend/.env
 
-      - name: Validar Dockerfiles (Build individual)
-        run: |
-          docker build ./backend -f backend/dockerfile -t trab-backend
-          docker build ./frontend -f frontend/dockerfile -t trab-frontend
-
       - name: Testar Orquestração com Docker Compose
         run: |
-          # Note a mudança de 'docker-compose' para 'docker compose'
           docker compose up --build -d
         
           # Tempo para os serviços Flask e Nginx subirem
@@ -42,6 +36,31 @@ jobs:
             exit 1
           fi
 
-      - name: Encerrar ambiente
+      - name: Encerrar ambiente de teste
         if: always()
         run: docker compose down
+
+      - name: Login no Docker Hub
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build e Push da Imagem do Backend
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          file: ./backend/dockerfile
+          push: true
+          tags: vitornayann/trab-backend:latest
+
+      - name: Build e Push da Imagem do Frontend
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          file: ./frontend/dockerfile
+          push: true
+          tags: vitornayann/trab-frontend:latest
