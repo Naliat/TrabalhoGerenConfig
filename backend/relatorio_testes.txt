@@ -1,0 +1,99 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.3, pluggy-1.6.0 -- /home/tailan-de-souza/Documentos/6 Semestre/Gerencia de Configuração/TrabalhoFInal/TrabalhoGerenConfig/venv/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/tailan-de-souza/Documentos/6 Semestre/Gerencia de Configuração/TrabalhoFInal/TrabalhoGerenConfig/backend
+plugins: mock-3.12.0
+collecting ... collected 14 items
+
+tests/testError.py::TestValidacoesUsuario::test_email[aluno@quixada.ufc.br-True-E-mail institucional] PASSED
+tests/testError.py::TestValidacoesUsuario::test_email[professor@gmail.com-True-E-mail comum] PASSED
+tests/testError.py::TestValidacoesUsuario::test_email[usuario_sem_arroba.com-False-Falta @] PASSED
+tests/testError.py::TestValidacoesUsuario::test_email[email@dominio-False-Falta TLD (.com)] PASSED
+tests/testError.py::TestValidacoesUsuario::test_email[-False-Campo vazio] PASSED
+tests/testError.py::TestValidacoesUsuario::test_email[falha_proposital@teste.com-False-FOR\xc7ANDO FALHA: E-mail v\xe1lido mas esperado False] FAILED
+tests/testError.py::TestValidacoesUsuario::test_senha[Ola12345!!-True-Senha completa (Ideal)] PASSED
+tests/testError.py::TestValidacoesUsuario::test_senha[12345-False-Muito curta] PASSED
+tests/testError.py::TestValidacoesUsuario::test_senha[senhateste-False-Apenas min\xfasculas] PASSED
+tests/testError.py::TestValidacoesUsuario::test_senha[SenhaSemNumero!!-False-Sem n\xfamero] PASSED
+tests/testError.py::TestValidacoesUsuario::test_senha[Ola12345-False-Sem s\xedmbolo] PASSED
+tests/testError.py::TestValidacoesUsuario::test_senha[ola12345!!-False-Sem mai\xfascula] PASSED
+tests/testError.py::TestValidacoesUsuario::test_senha[OLA12345!!-False-Sem min\xfascula] PASSED
+tests/testError.py::TestValidacoesUsuario::test_senha[123-True-FOR\xc7ANDO FALHA: Senha curta mas esperada True] FAILED
+
+=================================== FAILURES ===================================
+_ TestValidacoesUsuario.test_email[falha_proposital@teste.com-False-FOR\xc7ANDO FALHA: E-mail v\xe1lido mas esperado False] _
+
+self = <tests.testError.TestValidacoesUsuario object at 0x75b3faf52390>
+email = 'falha_proposital@teste.com', deve_passar = False
+cenario = 'FORÇANDO FALHA: E-mail válido mas esperado False'
+
+    @pytest.mark.parametrize("email, deve_passar, cenario", [
+        ("aluno@quixada.ufc.br", True, "E-mail institucional"),
+        ("professor@gmail.com", True, "E-mail comum"),
+        ("usuario_sem_arroba.com", False, "Falta @"),
+        ("email@dominio", False, "Falta TLD (.com)"),
+        ("", False, "Campo vazio"),
+        ("falha_proposital@teste.com", False, "FORÇANDO FALHA: E-mail válido mas esperado False"),
+    ])
+    def test_email(self, email, deve_passar, cenario):
+        logger.info(f"🔹 [EMAIL] {cenario} | Analisando: '{email}'")
+    
+        start = time.time()
+        valido, mensagem = validar_email(email)
+        elapsed = (time.time() - start) * 1000
+    
+        status = "✅ PASSED" if valido == deve_passar else "❌ FAILED"
+    
+        logger.info(f"   Status: {status} ({elapsed:.2f}ms)")
+        logger.info(f"   Mensagem: {mensagem}")
+    
+        if not valido == deve_passar:
+            logger.error(f"   ⚠️ ERRO: Esperava {deve_passar} mas a função retornou {valido}")
+    
+>       assert valido == deve_passar
+E       assert True == False
+
+tests/testError.py:54: AssertionError
+------------------------------ Captured log call -------------------------------
+ERROR    tests.testError:testError.py:52    ⚠️ ERRO: Esperava False mas a função retornou True
+_ TestValidacoesUsuario.test_senha[123-True-FOR\xc7ANDO FALHA: Senha curta mas esperada True] _
+
+self = <tests.testError.TestValidacoesUsuario object at 0x75b3faf529c0>
+senha = '123', deve_passar = True
+cenario = 'FORÇANDO FALHA: Senha curta mas esperada True'
+
+    @pytest.mark.parametrize("senha, deve_passar, cenario", [
+        ("Ola12345!!", True, "Senha completa (Ideal)"),
+        ("12345", False, "Muito curta"),
+        ("senhateste", False, "Apenas minúsculas"),
+        ("SenhaSemNumero!!", False, "Sem número"),
+        ("Ola12345", False, "Sem símbolo"),
+        ("ola12345!!", False, "Sem maiúscula"),
+        ("OLA12345!!", False, "Sem minúscula"),
+        ("123", True, "FORÇANDO FALHA: Senha curta mas esperada True"),
+    ])
+    def test_senha(self, senha, deve_passar, cenario):
+        logger.info(f"🔸 [SENHA] {cenario}")
+    
+        start = time.time()
+        valido, mensagem, detalhes = validar_senha_forte(senha)
+        elapsed = (time.time() - start) * 1000
+    
+        status = "✅ PASSED" if valido == deve_passar else "❌ FAILED"
+    
+        logger.info(f"   Status: {status} ({elapsed:.2f}ms) | Entrada: '{senha}'")
+        logger.info(f"   Checklist: {detalhes}")
+    
+        if not valido == deve_passar:
+            logger.error(f"   ❌ MOTIVO DA FALHA: {mensagem}")
+    
+>       assert valido == deve_passar
+E       assert False == True
+
+tests/testError.py:81: AssertionError
+------------------------------ Captured log call -------------------------------
+ERROR    tests.testError:testError.py:79    ❌ MOTIVO DA FALHA: Senha não atende aos requisitos de segurança.
+=========================== short test summary info ============================
+FAILED tests/testError.py::TestValidacoesUsuario::test_email[falha_proposital@teste.com-False-FOR\xc7ANDO FALHA: E-mail v\xe1lido mas esperado False]
+FAILED tests/testError.py::TestValidacoesUsuario::test_senha[123-True-FOR\xc7ANDO FALHA: Senha curta mas esperada True]
+========================= 2 failed, 12 passed in 0.20s =========================

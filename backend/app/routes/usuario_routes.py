@@ -5,6 +5,7 @@ import logging
 import re
 import os
 from datetime import datetime
+import string
  
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail, From, To, Subject, HtmlContent, PlainTextContent
@@ -27,11 +28,21 @@ def validar_email(email):
 
     return True, "E-mail válido"
 
-def validar_senha_forte(password):
+def validar_senha_forte(senha):
+    detalhes = {
+        "min_len": len(senha) >= 8,
+        "tem_numero": any(char.isdigit() for char in senha),
+        "tem_maiuscula": any(char.isupper() for char in senha),
+        "tem_minuscula": any(char.islower() for char in senha),
+        "tem_simbolo": any(char in string.punctuation for char in senha)
+    }
     
-    if not isinstance(password, str) or len(password) < 6:
-        return False, "A senha deve ter pelo menos 6 caracteres", {"min_len": False}
-    return True, "Senha forte o suficiente", {"min_len": True}
+    valido = all(detalhes.values())
+    
+    if not valido:
+        return False, "Senha não atende aos requisitos de segurança.", detalhes
+        
+    return True, "Senha forte o suficiente", detalhes
 
 def send_reset_email_sendgrid(email, token, name=""):
     

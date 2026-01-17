@@ -67,3 +67,30 @@ Para expandir os testes, você pode adicionar:
 - Testes para services (usuario_service)
 - Testes de integração para rotas
 - Testes com mocks para banco de dados
+
+
+## Testes mais detalhados
+
+## Testes passados em todos os testes
+```bash
+pytest -s -v tests/testCorreto.py
+```
+## Se quiser gerar um relatorio em txt com a saida
+pytest -s -v tests/testCorreto.py > relatorio_testes.txt
+
+```bash
+pytest -s -v tests/testCorreto.py > relatorio_testes.txt
+```
+
+
+## Testes com erros em alguns lugares
+```bash
+pytest -s -v tests/testError.py
+```
+## Se quiser gerar um relatorio em txt com a saida
+pytest -s -v tests/testCorreto.py > relatorio_testes.txt
+
+```bash
+pytest -s -v tests/testError.py > relatorio_testes.txt 
+```
+
