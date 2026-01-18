@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (hostname === 'localhost' || hostname === '127.0.0.1') {
         API_URL = "http://127.0.0.1:5000/api";
     } else {
-        API_URL = "https://trab-de-lip-sitask.onrender.com/api";
+        API_URL = "https://trabalhogerenconfig.onrender.com/api";
     }
 
     function getUrlParams() {
