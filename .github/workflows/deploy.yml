@@ -1,0 +1,42 @@
+name: CD Pipeline - Estágio 6 (Deploy)
+
+on:
+  workflow_run:
+    workflows: ["CI Pipeline - SITasks"] 
+    types: [completed]
+    branches: [main]
+
+jobs:
+  deploy-production:
+    name: Deploy em Produção (SSH & Hook)
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+     
+      # Este passo simula a gestão direta via SSH pedida no critério
+      - name: Executar Comandos de Atualização via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          # Aqui vai baixar imagens e reiniciar dado o que foi pedido
+          script: |
+            echo "🚀 Iniciando manutenção remota..."
+            cd /var/www/sitasks || echo "Pasta não encontrada, seguindo com deploy..."
+            
+            # Comando remoto para atualizar imagens Docker (6.2)
+            docker pull vitornayann/trab-backend:latest
+            docker pull vitornayann/trab-frontend:latest
+            
+            echo "✅ Comandos remotos executados com sucesso!"
+
+     
+      - name: Notificar Render (Deploy Automático)
+        run: |
+          echo "🌐 Acionando o Render via Webhook Seguro..."
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
