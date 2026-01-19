@@ -53,23 +53,76 @@ O SITasks é construído como uma aplicação Full-Stack, utilizando a seguinte 
 A estrutura do projeto separa claramente o *backend* (API Flask) e o *frontend* (HTML/CSS/JS):
 
 ```bash
-.
 ├── backend
-│   ├── app
-│   │   ├── config.py
-│   │   ├── database.py
-│   │   ├── models
-│   │   ├── routes
-│   │   └── services
-│   ├── instance
-│   ├── run.py
-│   └── tests
+│   ├── app
+│   │   ├── database.py
+│   │   ├── __init__.py
+│   │   ├── logger.py
+│   │   ├── models
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   └── usuario_model.py
+│   │   ├── __pycache__
+│   │   │   ├── database.cpython-312.pyc
+│   │   │   ├── __init__.cpython-312.pyc
+│   │   │   └── logger.cpython-312.pyc
+│   │   ├── routes
+│   │   │   ├── admin_routes.py
+│   │   │   ├── __pycache__
+│   │   │   └── usuario_routes.py
+│   │   └── services
+│   │       ├── email_service.py
+│   │       └── usuario_service.py
+│   ├── config.py
+│   ├── dockerfile
+│   ├── relatorio_testes.txt
+│   ├── requirements.txt
+│   ├── run.py
+│   └── tests
+│       ├── __init__.py
+│       ├── __pycache__
+│       │   ├── __init__.cpython-312.pyc
+│       │   ├── oi.cpython-312-pytest-7.4.3.pyc
+│       │   ├── testC.cpython-312-pytest-7.4.3.pyc
+│       │   ├── testCorreto.cpython-312-pytest-7.4.3.pyc
+│       │   ├── testError.cpython-312-pytest-7.4.3.pyc
+│       │   └── test_validacoes.cpython-312-pytest-7.4.3.pyc
+│       ├── README.md
+│       ├── testCorreto.py
+│       ├── testError.py
+│       └── test_validacoes.py
+├── docker-compose.yml
 ├── frontend
-│   ├── assets
-│   ├── css
-│   ├── js
-│   ├── index.html
-│   └── pages
-├── padraoCommits.txt
-├── README.md
-└── venv
+│   ├── css
+│   │   ├── admin.css
+│   │   ├── esqueciSenha.css
+│   │   ├── pomodoro.css
+│   │   └── style.css
+│   ├── dockerfile
+│   ├── index.html
+│   ├── js
+│   │   ├── admin.js
+│   │   ├── app.js
+│   │   ├── cronograma.js
+│   │   ├── estudos.js
+│   │   ├── export.js
+│   │   ├── forgot-password.js
+│   │   ├── login.js
+│   │   ├── navigation.js
+│   │   ├── notifications.js
+│   │   ├── pomodoro.js
+│   │   ├── register.js
+│   │   ├── relatorios.js
+│   │   ├── reset-password.js
+│   │   ├── revisoes.js
+│   │   ├── usuario.js
+│   │   └── utils.js
+│   └── pages
+│       ├── admin.html
+│       ├── app.html
+│       ├── forgot-password.html
+│       ├── login.html
+│       ├── registro.html
+│       └── reset-password.html
+├── QrcodeSite.png
+└── README.md
